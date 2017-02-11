@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
-    public class Queue<T>
+    public class Queue<T> : IEnumerable<T>
     {
-        protected CircularLinkedList<T> collection;
+        protected CircularLinkedList<T> backend;
 
-        public static Queue<T> Copy(Queue<T> stackToCopy)
+        public static Queue<T> CopyTo(Queue<T> stackToCopy)
         {
             var newQueue = new Queue<T>();
 
             for (int i = 0; i < stackToCopy.Count; i++)
             {
-                newQueue.collection.Add(i, stackToCopy.collection.Get(i));
+                newQueue.backend.Add(i, stackToCopy.backend[i]);
             }
 
             return newQueue;
@@ -26,29 +27,39 @@ namespace DataStructures.Collections
         {
             get
             {
-                return collection.Count();
+                return backend.Count();
             }
         }
 
         public Queue()
         {
-            collection = new CircularLinkedList<T>();
+            backend = new CircularLinkedList<T>();
         }
 
         public void Enqueue(T value)
         {
-            collection.Add(value);
+            backend.Add(value);
         }
 
         public T Dequeue()
         {
-            return collection.Remove(0);
+            return backend.Remove(0);
         }
 
         public void Clear()
         {
-            if (!collection.Empty)
-                collection.Clear();
+            if (!backend.Empty)
+                backend.Clear();
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return backend.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

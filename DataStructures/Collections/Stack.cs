@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
-    public class Stack<T>
+    public class Stack<T> : IEnumerable<T>
     {
-        protected CircularLinkedList<T> collection;
+        protected CircularLinkedList<T> backend;
 
-        public static Stack<T> Copy(Stack<T> stackToCopy)
+        public static Stack<T> CopyTo(Stack<T> stackToCopy)
         {
             var newStack = new Stack<T>();
 
             for (int i = 0; i < stackToCopy.Count; i++)
             {
-                newStack.collection.Add(stackToCopy.collection.Get(i));
+                newStack.backend.Add(stackToCopy.backend[i]);
             }
 
             return newStack;
@@ -26,7 +27,7 @@ namespace DataStructures.Collections
         {
             get
             {
-                return collection.Count();
+                return backend.Count();
             }
 
             protected set { }
@@ -34,27 +35,37 @@ namespace DataStructures.Collections
 
         public Stack()
         {
-            collection = new CircularLinkedList<T>();
+            backend = new CircularLinkedList<T>();
         }
 
         public void Push(T item)
         {
-            collection.Add(0, item);
+            backend.Add(0, item);
         }
 
         public T Pop()
         {
-            return collection.Remove(0);
+            return backend.Remove(0);
         }
 
         public T Peek()
         {
-            return collection.Head.Value;
+            return backend.Head.Value;
         }
 
         public void Clear()
         {
-            collection.Clear();
+            backend.Clear();
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return backend.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

@@ -7,28 +7,30 @@ using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
-    public class CircularLinkedList<T> : ILinkedList<T>
+    public class CircularLinkedList<T> : ILinkedList<T>, IEnumerable<T>
     {
-        #region Properties
-
         public CircularNode<T> Head { get; private set; }
 
         public bool Empty
         {
             get { return Count() == 0; }
         }
-        #endregion
 
-        #region Constructors
+        private IEnumerable<CircularNode<T>> Nodes
+        {
+            get
+            {
+                for (int i = 0; i < Count(); i++)
+                {
+                    yield return GetNode(i);
+                }
+            }
+        }
 
         public CircularLinkedList()
         {
             Head = null;
         }
-
-        #endregion
-
-        #region Methods
 
         public T Add(T value)
         {
@@ -187,6 +189,24 @@ namespace DataStructures.Collections
         {
             Head = null;
         }
-        #endregion
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            foreach (CircularNode<T> node in Nodes)
+            {
+                yield return node.Value;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public T this[int i]
+        {
+            get { return Get(i); }
+            set { Set(i, value); }
+        }
     }
 }

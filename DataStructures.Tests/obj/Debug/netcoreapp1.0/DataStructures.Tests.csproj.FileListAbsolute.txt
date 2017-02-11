@@ -1,5 +1,0 @@
-C:\Users\creat\Documents\DataStructures\DataStructures.Tests\bin\Debug\netcoreapp1.0\DataStructures.Tests.deps.json
-C:\Users\creat\Documents\DataStructures\DataStructures.Tests\bin\Debug\netcoreapp1.0\DataStructures.Tests.runtimeconfig.json
-C:\Users\creat\Documents\DataStructures\DataStructures.Tests\bin\Debug\netcoreapp1.0\DataStructures.Tests.runtimeconfig.dev.json
-C:\Users\creat\Documents\DataStructures\DataStructures.Tests\obj\Debug\netcoreapp1.0\DataStructures.Tests.csprojResolveAssemblyReference.cache
-C:\Users\creat\Documents\DataStructures\DataStructures.Tests\obj\Debug\netcoreapp1.0\DataStructures.Tests.AssemblyInfo.cs
