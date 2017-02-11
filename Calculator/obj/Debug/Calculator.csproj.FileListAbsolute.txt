@@ -1,0 +1,12 @@
+C:\Users\creat\Documents\DataStructures\Calculator\bin\Debug\Calculator.exe.config
+C:\Users\creat\Documents\DataStructures\Calculator\bin\Debug\Calculator.exe
+C:\Users\creat\Documents\DataStructures\Calculator\bin\Debug\Calculator.pdb
+C:\Users\creat\Documents\DataStructures\Calculator\obj\Debug\Calculator.csprojResolveAssemblyReference.cache
+C:\Users\creat\Documents\DataStructures\Calculator\obj\Debug\Calculator.Form1.resources
+C:\Users\creat\Documents\DataStructures\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+C:\Users\creat\Documents\DataStructures\Calculator\obj\Debug\Calculator.csproj.GenerateResource.Cache
+C:\Users\creat\Documents\DataStructures\Calculator\obj\Debug\Calculator.exe
+C:\Users\creat\Documents\DataStructures\Calculator\obj\Debug\Calculator.pdb
+C:\Users\creat\Documents\DataStructures\Calculator\bin\Debug\DataStructures.exe
+C:\Users\creat\Documents\DataStructures\Calculator\bin\Debug\DataStructures.pdb
+C:\Users\creat\Documents\DataStructures\Calculator\bin\Debug\DataStructures.exe.config
