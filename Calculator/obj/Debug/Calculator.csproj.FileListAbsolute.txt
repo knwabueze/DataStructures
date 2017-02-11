@@ -8,5 +8,5 @@ C:\Users\creat\Documents\DataStructures\Calculator\obj\Debug\Calculator.csproj.G
 C:\Users\creat\Documents\DataStructures\Calculator\obj\Debug\Calculator.exe
 C:\Users\creat\Documents\DataStructures\Calculator\obj\Debug\Calculator.pdb
 C:\Users\creat\Documents\DataStructures\Calculator\bin\Debug\DataStructures.pdb
-C:\Users\creat\Documents\DataStructures\Calculator\bin\Debug\DataStructures.dll
-C:\Users\creat\Documents\DataStructures\Calculator\bin\Debug\DataStructures.dll.config
+C:\Users\creat\Documents\DataStructures\Calculator\bin\Debug\DataStructures.exe
+C:\Users\creat\Documents\DataStructures\Calculator\bin\Debug\DataStructures.exe.config

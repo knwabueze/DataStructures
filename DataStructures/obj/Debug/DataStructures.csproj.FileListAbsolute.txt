@@ -6,6 +6,6 @@ C:\Users\creat\Documents\BinarySearchTree\BinarySearchTree\obj\Debug\BinarySearc
 C:\Users\creat\Documents\DataStructures\DataStructures\obj\Debug\DataStructures.csprojResolveAssemblyReference.cache
 C:\Users\creat\Documents\DataStructures\DataStructures\bin\Debug\DataStructures.pdb
 C:\Users\creat\Documents\DataStructures\DataStructures\obj\Debug\DataStructures.pdb
-C:\Users\creat\Documents\DataStructures\DataStructures\bin\Debug\DataStructures.dll.config
-C:\Users\creat\Documents\DataStructures\DataStructures\bin\Debug\DataStructures.dll
-C:\Users\creat\Documents\DataStructures\DataStructures\obj\Debug\DataStructures.dll
+C:\Users\creat\Documents\DataStructures\DataStructures\bin\Debug\DataStructures.exe.config
+C:\Users\creat\Documents\DataStructures\DataStructures\bin\Debug\DataStructures.exe
+C:\Users\creat\Documents\DataStructures\DataStructures\obj\Debug\DataStructures.exe

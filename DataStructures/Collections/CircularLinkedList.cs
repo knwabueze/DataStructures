@@ -187,25 +187,6 @@ namespace DataStructures.Collections
         {
             Head = null;
         }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            CircularNode<T> current = Head;
-            if (current != null)
-            {
-                do
-                {
-                    yield return current.Value;
-                    current = current.Next;
-                } while (current != Head);
-            }
-        }
         #endregion
-
     }
 }

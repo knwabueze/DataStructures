@@ -6,24 +6,19 @@ using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
-    public interface ILinkedList<T> : IEnumerable<T>
+    public interface ILinkedList<T>
     {
-        T Add(int index, T value);
-        
+        T Add(int index, T value);        
         T Add(T value);
-
-        int IndexOf(T value);
-
         T Remove(int index);
 
-        bool Contains(T value);
-
         T Get(int index);
-
-        int Count();
-
         T Set(int index, T value);
 
+        int IndexOf(T value);        
+        bool Contains(T value);        
+
+        int Count();        
         void Clear();
     }
 }
