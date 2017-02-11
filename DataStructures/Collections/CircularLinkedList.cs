@@ -10,6 +10,7 @@ namespace DataStructures.Collections
     public class CircularLinkedList<T> : ILinkedList<T>
     {
         #region Properties
+
         public CircularNode<T> Head { get; private set; }
 
         public bool Empty
@@ -17,6 +18,7 @@ namespace DataStructures.Collections
             get { return Count() == 0; }
         }
         #endregion
+
         #region Constructors
 
         public CircularLinkedList()
@@ -25,6 +27,7 @@ namespace DataStructures.Collections
         }
 
         #endregion
+
         #region Methods
 
         public T Add(T value)
@@ -180,12 +183,29 @@ namespace DataStructures.Collections
             return counter;
         }
 
-        #endregion
-
-
         public void Clear()
         {
             Head = null;
         }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            CircularNode<T> current = Head;
+            if (current != null)
+            {
+                do
+                {
+                    yield return current.Value;
+                    current = current.Next;
+                } while (current != Head);
+            }
+        }
+        #endregion
+
     }
 }

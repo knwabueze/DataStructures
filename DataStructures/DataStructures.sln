@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures", "DataStruc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator", "..\Calculator\Calculator.csproj", "{B48C8819-087C-479B-BF9A-FBF38B2ED9B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures.Tests", "DataStructures.Tests\DataStructures.Tests.csproj", "{FC735BB5-68C2-4F72-9C0B-ED23A43CE682}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,18 @@ Global
 		{B48C8819-087C-479B-BF9A-FBF38B2ED9B8}.Release|x64.Build.0 = Release|Any CPU
 		{B48C8819-087C-479B-BF9A-FBF38B2ED9B8}.Release|x86.ActiveCfg = Release|Any CPU
 		{B48C8819-087C-479B-BF9A-FBF38B2ED9B8}.Release|x86.Build.0 = Release|Any CPU
+		{FC735BB5-68C2-4F72-9C0B-ED23A43CE682}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC735BB5-68C2-4F72-9C0B-ED23A43CE682}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC735BB5-68C2-4F72-9C0B-ED23A43CE682}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FC735BB5-68C2-4F72-9C0B-ED23A43CE682}.Debug|x64.Build.0 = Debug|Any CPU
+		{FC735BB5-68C2-4F72-9C0B-ED23A43CE682}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FC735BB5-68C2-4F72-9C0B-ED23A43CE682}.Debug|x86.Build.0 = Debug|Any CPU
+		{FC735BB5-68C2-4F72-9C0B-ED23A43CE682}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC735BB5-68C2-4F72-9C0B-ED23A43CE682}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC735BB5-68C2-4F72-9C0B-ED23A43CE682}.Release|x64.ActiveCfg = Release|Any CPU
+		{FC735BB5-68C2-4F72-9C0B-ED23A43CE682}.Release|x64.Build.0 = Release|Any CPU
+		{FC735BB5-68C2-4F72-9C0B-ED23A43CE682}.Release|x86.ActiveCfg = Release|Any CPU
+		{FC735BB5-68C2-4F72-9C0B-ED23A43CE682}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
