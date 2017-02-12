@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
-    public class CircularNode<T> : INode<T>
+    public class CircularLinkedListNode<T> : INode<T>
     {
         private T _value;
-        private CircularNode<T> _next;
-        private CircularNode<T> _prev;
+        private CircularLinkedListNode<T> _next;
+        private CircularLinkedListNode<T> _prev;
 
-        public CircularNode<T> Next
+        public CircularLinkedListNode<T> Next
         {
             get { return _next; }
             set { _next = value; }
         }
 
-        public CircularNode<T> Previous
+        public CircularLinkedListNode<T> Previous
         {
             get { return _prev; }
             set { _prev = value; }
@@ -30,7 +30,7 @@ namespace DataStructures.Collections
             set { _value = value; }
         }
 
-        public CircularNode(T value, CircularNode<T> next, CircularNode<T> prev)
+        public CircularLinkedListNode(T value, CircularLinkedListNode<T> next, CircularLinkedListNode<T> prev)
         {
             _value = value;
             _next = next;

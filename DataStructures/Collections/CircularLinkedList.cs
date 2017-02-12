@@ -9,14 +9,14 @@ namespace DataStructures.Collections
 {
     public class CircularLinkedList<T> : ILinkedList<T>, IEnumerable<T>
     {
-        public CircularNode<T> Head { get; private set; }
+        public CircularLinkedListNode<T> Head { get; private set; }
 
         public bool Empty
         {
             get { return Count() == 0; }
         }
 
-        private IEnumerable<CircularNode<T>> Nodes
+        private IEnumerable<CircularLinkedListNode<T>> Nodes
         {
             get
             {
@@ -41,7 +41,7 @@ namespace DataStructures.Collections
         {
             if (Head == null)
             {
-                Head = new CircularNode<T>(value, Head, Head);
+                Head = new CircularLinkedListNode<T>(value, Head, Head);
                 Head.Next = Head;
                 Head.Previous = Head;
                 return value;
@@ -49,7 +49,7 @@ namespace DataStructures.Collections
 
             else if (Empty || index == 0)
             {
-                Head = new CircularNode<T>(value, Head, Head.Previous);
+                Head = new CircularLinkedListNode<T>(value, Head, Head.Previous);
                 Head.Next.Previous = Head;
                 return value;
             }
@@ -61,9 +61,9 @@ namespace DataStructures.Collections
                 throw new IndexOutOfRangeException();
 
 
-            CircularNode<T> current = GetNode(index - 1);
+            CircularLinkedListNode<T> current = GetNode(index - 1);
 
-            current.Next = new CircularNode<T>(value, current.Next, current);
+            current.Next = new CircularLinkedListNode<T>(value, current.Next, current);
 
             if (index >= Count())
                 Head.Previous = current.Next;
@@ -90,12 +90,12 @@ namespace DataStructures.Collections
             return GetNode(index).Value;
         }
 
-        private CircularNode<T> GetNode(int index)
+        private CircularLinkedListNode<T> GetNode(int index)
         {
             if (index >= Count() || index < 0)
                 throw new IndexOutOfRangeException();
 
-            CircularNode<T> current = Head;
+            CircularLinkedListNode<T> current = Head;
 
             for (int i = 0; i < index; i++)
                 current = current.Next;
@@ -128,7 +128,7 @@ namespace DataStructures.Collections
 
             if (!GetNode(index).Equals(Head))
             {
-                CircularNode<T> current = GetNode(index);
+                CircularLinkedListNode<T> current = GetNode(index);
 
                 current.Next.Previous = current.Previous;
                 current.Previous.Next = current.Next;
@@ -174,7 +174,7 @@ namespace DataStructures.Collections
                 return 0;
             }
 
-            CircularNode<T> current = Head;
+            CircularLinkedListNode<T> current = Head;
 
             while (current != Head.Previous)
             {
@@ -192,7 +192,7 @@ namespace DataStructures.Collections
 
         public IEnumerator<T> GetEnumerator()
         {
-            foreach (CircularNode<T> node in Nodes)
+            foreach (CircularLinkedListNode<T> node in Nodes)
             {
                 yield return node.Value;
             }

@@ -15,13 +15,13 @@ namespace DataStructures.Collections
             private set;
         }
 
-        public SinglyNode<T> Head
+        public SinglyLinkedListNode<T> Head
         {
             get;
             private set;
         }
 
-        public SinglyNode<T> Tail
+        public SinglyLinkedListNode<T> Tail
         {
             get;
             private set;
@@ -35,11 +35,11 @@ namespace DataStructures.Collections
             }
         }
 
-        private IEnumerable<SinglyNode<T>> Nodes
+        private IEnumerable<SinglyLinkedListNode<T>> Nodes
         {
             get
             {
-                SinglyNode<T> current = Head;
+                SinglyLinkedListNode<T> current = Head;
 
                 for (int i = 0; i < Size; i++)
                 {
@@ -61,7 +61,7 @@ namespace DataStructures.Collections
 
             if (Empty)
             {
-                Head = new SinglyNode<T>(value, null);
+                Head = new SinglyLinkedListNode<T>(value, null);
                 Tail = Head;
                 Size++;
                 return value;
@@ -69,13 +69,13 @@ namespace DataStructures.Collections
 
             if (index >= Size - 1)
             {
-                Tail.Next = new SinglyNode<T>(value, null);
+                Tail.Next = new SinglyLinkedListNode<T>(value, null);
                 Tail = Tail.Next;
                 Size++;
                 return value;
             }
 
-            GetNode(index).Next = new SinglyNode<T>(value, GetNode(index).Next);
+            GetNode(index).Next = new SinglyLinkedListNode<T>(value, GetNode(index).Next);
             Size++;
             return value;
         }
@@ -94,7 +94,7 @@ namespace DataStructures.Collections
 
         public bool Contains(T value)
         {
-            foreach (SinglyNode<T> node in Nodes)
+            foreach (SinglyLinkedListNode<T> node in Nodes)
             {
                 if (value.Equals(node.Value))
                     return true;
@@ -113,10 +113,10 @@ namespace DataStructures.Collections
             return GetNode(index).Value;
         }
 
-        private SinglyNode<T> GetNode(int index)
+        private SinglyLinkedListNode<T> GetNode(int index)
         {
             int counter = 0;
-            foreach (SinglyNode<T> node in Nodes)
+            foreach (SinglyLinkedListNode<T> node in Nodes)
             {
                 if (counter == index)
                     return node;
@@ -129,7 +129,7 @@ namespace DataStructures.Collections
 
         public IEnumerator<T> GetEnumerator()
         {
-            foreach (SinglyNode<T> node in Nodes)
+            foreach (SinglyLinkedListNode<T> node in Nodes)
                 yield return node.Value;
         }
 
@@ -146,7 +146,7 @@ namespace DataStructures.Collections
 
         public T Remove(int index)
         {
-            SinglyNode<T> current = GetNode(index);
+            SinglyLinkedListNode<T> current = GetNode(index);
             T value = current.Value;
 
             GetNode(index - 1).Next = current.Next;

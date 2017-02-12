@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
-    public class BinarySearchTree : ITree<int>, IEnumerable<int>
+    public class BinarySearchTree : IBinarySearchTree
     {
-        public BinaryTreeIntNode Root
+        public BinarySearchTreeNode Root
         {
             get;
             private set;
@@ -29,26 +29,6 @@ namespace DataStructures.Collections
             }
         }
 
-        private IEnumerable<BinaryTreeIntNode> Nodes
-        {
-            get
-            {
-                BinaryTreeIntNode current = Root;
-                while (current.RightChild != null)
-                {
-                    yield return current;
-                    current = current.RightChild;
-                }
-
-                current = Root.LeftChild;
-                while (current.LeftChild != null)
-                {
-                    yield return current;
-                    current = current.LeftChild;
-                }
-            }
-        }
-
         public BinarySearchTree()
         {
             Clear();
@@ -58,19 +38,14 @@ namespace DataStructures.Collections
         {
             Size = 0;
             Root = null;
-        }
-
-        public void InOrderTraverse()
-        {
-            throw new NotImplementedException();
-        }
+        }        
 
         public void Insert(int value)
         {
             if (Root == null)
             {
                 Size++;
-                Root = new BinaryTreeIntNode(value);
+                Root = new BinarySearchTreeNode(value);
                 Root.Parent = null;
                 Root.LeftChild = null;
                 Root.RightChild = null;
@@ -88,7 +63,7 @@ namespace DataStructures.Collections
             }
         }
 
-        private void InsertR(BinaryTreeIntNode parent, BinaryTreeIntNode child, int value)
+        private void InsertR(BinarySearchTreeNode parent, BinarySearchTreeNode child, int value)
         {
 
             if (parent.Value < value)
@@ -96,7 +71,7 @@ namespace DataStructures.Collections
                 if (child == null)
                 {
                     Size++;
-                    child = new BinaryTreeIntNode(value);
+                    child = new BinarySearchTreeNode(value);
                     child.Parent = parent;
                     parent.RightChild = child;
                     child.RightChild = null;
@@ -112,7 +87,7 @@ namespace DataStructures.Collections
                 if (child == null)
                 {
                     Size++;
-                    child = new BinaryTreeIntNode(value);
+                    child = new BinarySearchTreeNode(value);
                     child.Parent = parent;
                     parent.LeftChild = child;
                     child.RightChild = null;
@@ -124,14 +99,28 @@ namespace DataStructures.Collections
             }
         }
 
-        public INode<int> IterativeFind(int position)
+        public BinarySearchTreeNode IterativeFind(int value)
         {
-            throw new NotImplementedException();
+            BinarySearchTreeNode current = Root;
+
+            while (current != null)
+            {
+                if (value < current.Value)
+                    current = current.LeftChild;
+
+                if (value > current.Value)
+                    current = current.RightChild;
+
+                if (value == current.Value)
+                    return current;
+            }
+
+            throw new KeyNotFoundException();
         }
 
         public int Maximum()
         {
-            BinaryTreeIntNode current = Root;
+            BinarySearchTreeNode current = Root;
 
             while (current.RightChild != null)
                 current = current.RightChild;
@@ -141,7 +130,7 @@ namespace DataStructures.Collections
 
         public int Minimum()
         {
-            BinaryTreeIntNode current = Root;
+            BinarySearchTreeNode current = Root;
 
             while (current.LeftChild != null)
                 current = current.LeftChild;
@@ -149,22 +138,12 @@ namespace DataStructures.Collections
             return current.Value;
         }
 
-        public void PostOrderTraverse()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void PreOrderTraverse()
-        {
-            throw new NotImplementedException();
-        }
-
         public void Remove(int value)
         {
             throw new NotImplementedException();
         }
 
-        private BinaryTreeIntNode SearchNodeR(BinaryTreeIntNode current, int key)
+        private BinarySearchTreeNode SearchNodeR(BinarySearchTreeNode current, int key)
         {
             if (key < current.Value)
             {
@@ -184,20 +163,24 @@ namespace DataStructures.Collections
             throw new KeyNotFoundException();
         }
 
-        public INode<int> SearchNode(int key)
-        {
+        public BinarySearchTreeNode SearchNode(int key)
+        {            
             return SearchNodeR(Root, key);
         }
 
-        public IEnumerator<int> GetEnumerator()
+        public BinarySearchTreeNode[] InOrderTraverse()
         {
-            foreach (BinaryTreeIntNode node in Nodes)
-                yield return node.Value;
+            throw new NotImplementedException();
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public BinarySearchTreeNode[] PreOrderTraverse()
         {
-            return GetEnumerator();
+            throw new NotImplementedException();
+        }
+
+        public BinarySearchTreeNode[] PostOrderTraverse()
+        {
+            throw new NotImplementedException();
         }
     }
 }
