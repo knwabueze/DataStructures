@@ -61,11 +61,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\BinarySearchTree.cs" />
+    <Compile Include="Collections\BinaryTreeIntNode.cs" />
     <Compile Include="Collections\CircularLinkedList.cs" />
     <Compile Include="Collections\ILinkedList.cs" />
     <Compile Include="Collections\INode.cs" />
     <Compile Include="Collections\CircularNode.cs" />
-    <Compile Include="Collections\Node.cs" />
+    <Compile Include="Collections\ITree.cs" />
+    <Compile Include="Collections\SinglyNode.cs" />
     <Compile Include="Collections\Queue.cs" />
     <Compile Include="Collections\SinglyLinkedList.cs" />
     <Compile Include="Collections\Stack.cs" />

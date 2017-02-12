@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
-    public class Node<T> : INode<T>
+    public class SinglyNode<T> : INode<T>
     {
-        public Node<T> Next
+        public SinglyNode<T> Next
         {
             get;
             set;
@@ -21,7 +21,7 @@ namespace DataStructures.Collections
             set;
         }
 
-        public Node(T value, Node<T> next)
+        public SinglyNode(T value, SinglyNode<T> next)
         {
             this.Value = value;
             this.Next = next;
