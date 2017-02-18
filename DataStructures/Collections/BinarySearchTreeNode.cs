@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
-    public class BinarySearchTreeNode : INode<int>
+    public class BinarySearchTreeNode<T> : INode<T>
+        where T : IComparable
     {
         public int Value { get; set; }
 
-        public BinarySearchTreeNode LeftChild { get; set; }
-        public BinarySearchTreeNode RightChild { get; set; }
-        public BinarySearchTreeNode Parent { get; set; }
+        public BinarySearchTreeNode<T> LeftChild { get; set; }
+        public BinarySearchTreeNode<T> RightChild { get; set; }
+        public BinarySearchTreeNode<T> Parent { get; set; }
 
-        public BinarySearchTreeNode(int value)
+        public BinarySearchTreeNode(T value)
         {
             Value = value;
         }

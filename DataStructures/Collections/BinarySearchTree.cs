@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
-    public class BinarySearchTree : IBinarySearchTree
+    public class BinarySearchTree<TKey> : IBinarySearchTree<BinarySearchTreeNode<TKey>, TKey>
+        where TKey : IComparable
     {
-        public BinarySearchTreeNode Root { get; private set; }
+        public BinarySearchTreeNode<TKey> Root { get; private set; }
 
         public int Size { get; private set; }
 
@@ -20,7 +21,7 @@ namespace DataStructures.Collections
             Clear();
         }
 
-        public BinarySearchTree(params int[] nodes)
+        public BinarySearchTree(params TKey[] nodes)
         {
             Clear();
             foreach (var node in nodes)
@@ -33,26 +34,26 @@ namespace DataStructures.Collections
             Root = null;
         }
 
-        public void Insert(int value)
+        public void Insert(TKey value)
         {
             if (Root == null)
             {
                 Size++;
-                Root = new BinarySearchTreeNode(value);
+                Root = new BinarySearchTreeNode<TKey>(value);
                 return;
             }
 
             InsertR(Root, value);
         }
 
-        private void InsertR(BinarySearchTreeNode parent, int value)
+        private void InsertR(BinarySearchTreeNode<TKey> parent, TKey value)
         {
-            if (value > parent.Value)
+            if (value.CompareTo(parent.Value) > 0)
             {
                 if (parent.RightChild == null)
                 {
                     Size++;
-                    parent.RightChild = new BinarySearchTreeNode(value)
+                    parent.RightChild = new BinarySearchTreeNode<TKey>(value)
                     {
                         Parent = parent
                     };
@@ -62,12 +63,12 @@ namespace DataStructures.Collections
                 InsertR(parent.RightChild, value);
             }
 
-            else if (value <= parent.Value)
+            else if (value.CompareTo(parent.Value) <= 0)
             {
                 if (parent.LeftChild == null)
                 {
                     Size++;
-                    parent.LeftChild = new BinarySearchTreeNode(value)
+                    parent.LeftChild = new BinarySearchTreeNode<TKey>(value)
                     {
                         Parent = parent
                     };
@@ -78,27 +79,27 @@ namespace DataStructures.Collections
             }
         }
 
-        public BinarySearchTreeNode IterativeFind(int value)
+        public BinarySearchTreeNode<TKey> IterativeFind(TKey value)
         {
-            BinarySearchTreeNode current = Root;
+            BinarySearchTreeNode<TKey> current = Root;
             do
             {
-                if (value < current.Value)
+                if (value.CompareTo(current.Value) < 0)
                     current = current.LeftChild;
 
-                if (value > current.Value)
+                if (value.CompareTo(current.Value) > 0)
                     current = current.RightChild;
 
-                if (value == current.Value)
+                if (value.CompareTo(current.Value) == 0)
                     return current;
             } while (current != null);
 
             throw new KeyNotFoundException();
         }
 
-        public int Maximum()
+        public TKey Maximum()
         {
-            BinarySearchTreeNode current = Root;
+            BinarySearchTreeNode<TKey> current = Root;
 
             while (current.RightChild != null)
                 current = current.RightChild;
@@ -106,9 +107,9 @@ namespace DataStructures.Collections
             return current.Value;
         }
 
-        public int Minimum()
+        public TKey Minimum()
         {
-            BinarySearchTreeNode current = Root;
+            BinarySearchTreeNode<TKey> current = Root;
 
             while (current.LeftChild != null)
                 current = current.LeftChild;
@@ -116,15 +117,15 @@ namespace DataStructures.Collections
             return current.Value;
         }
 
-        public void Remove(int value)
+        public void Remove(TKey value)
         {
-            BinarySearchTreeNode current = SearchNode(value);
+            BinarySearchTreeNode<TKey> current = SearchNode(value);
             bool isLeftChild = false;
 
             // Check if current is left child or right child of parent if has parent
             if (current.Parent != null)
             {
-                if (current.Value < current.Parent.Value)
+                if (current.Value.CompareTo(current.Parent.Value) < 0)
                     isLeftChild = true;
                 else
                     isLeftChild = false;
@@ -145,7 +146,7 @@ namespace DataStructures.Collections
             // Favor Left : Go one left that continue to go right
             else if (current.LeftChild != null && current.RightChild != null)
             {
-                BinarySearchTreeNode destination = current.LeftChild;
+                BinarySearchTreeNode<TKey> destination = current.LeftChild;
 
                 while (destination.RightChild != null)
                     destination = destination.RightChild;
@@ -169,7 +170,7 @@ namespace DataStructures.Collections
             // Move Left Child
             else if (current.RightChild == null)
             {
-                BinarySearchTreeNode destination = current.LeftChild;
+                BinarySearchTreeNode<TKey> destination = current.LeftChild;
                 current.Value = destination.Value;
                 current.LeftChild = destination.LeftChild;
                 current.RightChild = destination.RightChild;
@@ -179,7 +180,7 @@ namespace DataStructures.Collections
             // Move Right Child
             else if (current.LeftChild == null)
             {
-                BinarySearchTreeNode destination = current.RightChild;
+                BinarySearchTreeNode<TKey> destination = current.RightChild;
                 current.Value = destination.Value;
                 current.LeftChild = destination.LeftChild;
                 current.RightChild = destination.RightChild;
@@ -189,36 +190,36 @@ namespace DataStructures.Collections
             Size--;
         }
 
-        private BinarySearchTreeNode SearchNodeR(BinarySearchTreeNode current, int key)
+        private BinarySearchTreeNode<TKey> SearchNodeR(BinarySearchTreeNode<TKey> current, TKey key)
         {
-            if (key < current.Value)
+            if (key.CompareTo(current.Value) < 0)
                 return SearchNodeR(current.LeftChild, key);
 
-            if (key > current.Value)
+            if (key.CompareTo(current.Value) < 0)
                 return SearchNodeR(current.RightChild, key);
 
-            if (key == current.Value)
+            if (key.CompareTo(current.Value) == 0)
                 return current;
 
             throw new KeyNotFoundException();
         }
 
-        public BinarySearchTreeNode SearchNode(int key)
+        public BinarySearchTreeNode<TKey> SearchNode(TKey key)
         {
             return SearchNodeR(Root, key);
         }
 
-        public BinarySearchTreeNode[] InOrderTraverse()
+        public BinarySearchTreeNode<TKey>[] InOrderTraverse()
         {
             throw new NotImplementedException();
         }
 
-        public BinarySearchTreeNode[] PreOrderTraverse()
+        public BinarySearchTreeNode<TKey>[] PreOrderTraverse()
         {
             throw new NotImplementedException();
         }
 
-        public BinarySearchTreeNode[] PostOrderTraverse()
+        public BinarySearchTreeNode<TKey>[] PostOrderTraverse()
         {
             throw new NotImplementedException();
         }
