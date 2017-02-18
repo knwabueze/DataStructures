@@ -62,13 +62,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\BinarySearchTree.cs" />
-    <Compile Include="Collections\BinaryTreeIntNode.cs" />
+    <Compile Include="Collections\BinarySearchTreeNode.cs" />
     <Compile Include="Collections\CircularLinkedList.cs" />
     <Compile Include="Collections\ILinkedList.cs" />
     <Compile Include="Collections\INode.cs" />
-    <Compile Include="Collections\CircularNode.cs" />
-    <Compile Include="Collections\ITree.cs" />
-    <Compile Include="Collections\SinglyNode.cs" />
+    <Compile Include="Collections\CircularLinkedListNode.cs" />
+    <Compile Include="Collections\IBinarySearchTree.cs" />
+    <Compile Include="Collections\SinglyLinkedListNode.cs" />
     <Compile Include="Collections\Queue.cs" />
     <Compile Include="Collections\SinglyLinkedList.cs" />
     <Compile Include="Collections\Stack.cs" />

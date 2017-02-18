@@ -20,5 +20,7 @@ namespace DataStructures.Collections
 
         int Count();        
         void Clear();
+
+        T this[int i] { get; set; }
     }
 }

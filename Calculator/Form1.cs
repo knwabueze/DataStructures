@@ -10,7 +10,7 @@ namespace Calculator
         Queue<int> numberQueue;
         Queue<OperationType> operationQueue;
         Queue<int> currentNumberQueue;
-        bool justAnswered;
+        bool justAnswered;                
 
         public Form1()
         {
@@ -29,23 +29,23 @@ namespace Calculator
             justAnswered = false;
         }
 
-        private void numberProccessing(object sender, EventArgs e)
+        private void NumberProccessing(object sender, EventArgs e)
         {
             if (justAnswered)
             {
                 justAnswered = false;
                 currentNumberQueue.Clear();
             }
-            currentNumberQueue.Enqueue(int.Parse(((Button)sender).Text));
-            main_label.Text = Utils.queueToBase(Queue<int>.Copy(currentNumberQueue), 10).ToString();
+            currentNumberQueue.Enqueue(int.Parse((sender as Button).Text));
+            main_label.Text = Utils.queueToBase(Queue<int>.CopyTo(currentNumberQueue), 10).ToString();
 
-            updateTopLabel();
+            UpdateTopLabel();
         }
 
-        private void operationProccessing(object sender, EventArgs e)
+        private void OperationProccessing(object sender, EventArgs e)
         {
             justAnswered = false;
-            Button newSender = (Button)sender;
+            Button newSender = sender as Button;
 
             if (currentNumberQueue.Count != 0)
             {
@@ -69,11 +69,11 @@ namespace Calculator
                 }
             }
 
-            updateTopLabel();
-            doCalculate();
+            UpdateTopLabel();
+            DoCalculate();
         }
 
-        private void doCalculate()
+        private void DoCalculate()
         {
             if (numberQueue.Count >= 2)
             {
@@ -115,15 +115,15 @@ namespace Calculator
 
                     numberQueue.Clear();
                     operationQueue.Clear();                    
-                    updateTopLabel();
+                    UpdateTopLabel();
                 }
             }
         }
 
-        private void updateTopLabel()
+        private void UpdateTopLabel()
         {
-            Queue<int> copiedQueue = Queue<int>.Copy(numberQueue);
-            Queue<OperationType> copiedTypeQueue = Queue<OperationType>.Copy(operationQueue);
+            Queue<int> copiedQueue = Queue<int>.CopyTo(numberQueue);
+            Queue<OperationType> copiedTypeQueue = Queue<OperationType>.CopyTo(operationQueue);
 
             string stringInProc = "";
             
@@ -157,7 +157,7 @@ namespace Calculator
             equation_label.Text = stringInProc;
         }
 
-        private void clearButtonClicked(object sender, EventArgs e)
+        private void ClearButtonClicked(object sender, EventArgs e)
         {
             main_label.Text = "0";
             equation_label.Text = "";

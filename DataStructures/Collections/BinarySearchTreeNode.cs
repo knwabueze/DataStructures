@@ -18,5 +18,10 @@ namespace DataStructures.Collections
         {
             Value = value;
         }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 }
