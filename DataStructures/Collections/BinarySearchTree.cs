@@ -7,21 +7,18 @@ using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
-    public class BinarySearchTree<TKey> : IBinarySearchTree<BinarySearchTreeNode<TKey>, TKey>
-        where TKey : IComparable
+    public class BinarySearchTree<T> : IBinarySearchTree<T>
+        where T : IComparable
     {
-        public BinarySearchTreeNode<TKey> Root { get; private set; }
-
+        public BinarySearchTreeNode<T> Root { get; private set; }
         public int Size { get; private set; }
-
         public bool Empty { get { return Size == 0; } }
 
         public BinarySearchTree()
         {
             Clear();
         }
-
-        public BinarySearchTree(params TKey[] nodes)
+        public BinarySearchTree(params T[] nodes)
         {
             Clear();
             foreach (var node in nodes)
@@ -34,26 +31,26 @@ namespace DataStructures.Collections
             Root = null;
         }
 
-        public void Insert(TKey value)
+        public void Insert(T value)
         {
             if (Root == null)
             {
                 Size++;
-                Root = new BinarySearchTreeNode<TKey>(value);
+                Root = new BinarySearchTreeNode<T>(value);
                 return;
             }
 
             InsertR(Root, value);
         }
 
-        private void InsertR(BinarySearchTreeNode<TKey> parent, TKey value)
+        private void InsertR(BinarySearchTreeNode<T> parent, T value)
         {
             if (value.CompareTo(parent.Value) > 0)
             {
                 if (parent.RightChild == null)
                 {
                     Size++;
-                    parent.RightChild = new BinarySearchTreeNode<TKey>(value)
+                    parent.RightChild = new BinarySearchTreeNode<T>(value)
                     {
                         Parent = parent
                     };
@@ -68,7 +65,7 @@ namespace DataStructures.Collections
                 if (parent.LeftChild == null)
                 {
                     Size++;
-                    parent.LeftChild = new BinarySearchTreeNode<TKey>(value)
+                    parent.LeftChild = new BinarySearchTreeNode<T>(value)
                     {
                         Parent = parent
                     };
@@ -79,9 +76,9 @@ namespace DataStructures.Collections
             }
         }
 
-        public BinarySearchTreeNode<TKey> IterativeFind(TKey value)
+        public BinarySearchTreeNode<T> IterativeFind(T value)
         {
-            BinarySearchTreeNode<TKey> current = Root;
+            BinarySearchTreeNode<T> current = Root;
             do
             {
                 if (value.CompareTo(current.Value) < 0)
@@ -97,61 +94,60 @@ namespace DataStructures.Collections
             throw new KeyNotFoundException();
         }
 
-        public TKey Maximum()
+        public BinarySearchTreeNode<T> Maximum()
         {
-            BinarySearchTreeNode<TKey> current = Root;
+            BinarySearchTreeNode<T> current = Root;
 
             while (current.RightChild != null)
                 current = current.RightChild;
 
-            return current.Value;
+            return current;
         }
 
-        public TKey Minimum()
+        public BinarySearchTreeNode<T> Minimum()
         {
-            BinarySearchTreeNode<TKey> current = Root;
+            BinarySearchTreeNode<T> current = Root;
 
             while (current.LeftChild != null)
                 current = current.LeftChild;
 
-            return current.Value;
+            return current;
         }
 
-        public void Remove(TKey value)
+        public void Remove(T value)
         {
-            BinarySearchTreeNode<TKey> current = SearchNode(value);
+            BinarySearchTreeNode<T> nodeToBeRemoved = SearchNode(value);
             bool isLeftChild = false;
-
-            // Check if current is left child or right child of parent if has parent
-            if (current.Parent != null)
+            
+            if (nodeToBeRemoved.Parent != null)
             {
-                if (current.Value.CompareTo(current.Parent.Value) < 0)
+                if (nodeToBeRemoved.Value.CompareTo(nodeToBeRemoved.Parent.Value) < 0)
                     isLeftChild = true;
                 else
                     isLeftChild = false;
             }
 
-            // Case 1: If children don't exist
-            if (current.LeftChild == null && current.RightChild == null)
+            if (Size == 1)
+                Root = null;
+
+            else if (nodeToBeRemoved.LeftChild == null && nodeToBeRemoved.RightChild == null)
             {
                 if (isLeftChild)
-                    current.Parent.LeftChild = null;
+                    nodeToBeRemoved.Parent.LeftChild = null;
                 else
-                    current.Parent.RightChild = null;
+                    nodeToBeRemoved.Parent.RightChild = null;
 
-                current = null;
+                nodeToBeRemoved = null;
             }
 
-            // Case 2: If both children exist
-            // Favor Left : Go one left that continue to go right
-            else if (current.LeftChild != null && current.RightChild != null)
+            else if (nodeToBeRemoved.LeftChild != null && nodeToBeRemoved.RightChild != null)
             {
-                BinarySearchTreeNode<TKey> destination = current.LeftChild;
+                BinarySearchTreeNode<T> destination = nodeToBeRemoved.LeftChild;
 
                 while (destination.RightChild != null)
                     destination = destination.RightChild;
 
-                current.Value = destination.Value;
+                nodeToBeRemoved.Value = destination.Value;
 
                 if (destination.LeftChild != null)
                 {
@@ -162,40 +158,60 @@ namespace DataStructures.Collections
                 else
                 {
                     destination.Parent.LeftChild = null;
-                }                
+                }
             }
 
-            // Case 3: If one child exists
-
-            // Move Left Child
-            else if (current.RightChild == null)
+            else if (nodeToBeRemoved.RightChild != null)
             {
-                BinarySearchTreeNode<TKey> destination = current.LeftChild;
-                current.Value = destination.Value;
-                current.LeftChild = destination.LeftChild;
-                current.RightChild = destination.RightChild;
-                destination = null;
+                if (nodeToBeRemoved == Root)
+                {
+                    Root = nodeToBeRemoved.RightChild;
+                    Root.Parent = null;
+                }
+
+                else if (!isLeftChild)
+                {
+                    nodeToBeRemoved.Parent.RightChild = nodeToBeRemoved.RightChild;
+                    nodeToBeRemoved.RightChild.Parent = nodeToBeRemoved.Parent;
+                }
+
+                else
+                {
+                    nodeToBeRemoved.Parent.LeftChild = nodeToBeRemoved.RightChild;
+                    nodeToBeRemoved.RightChild.Parent = nodeToBeRemoved.Parent;
+                }
             }
 
-            // Move Right Child
-            else if (current.LeftChild == null)
+            else if (nodeToBeRemoved.LeftChild != null)
             {
-                BinarySearchTreeNode<TKey> destination = current.RightChild;
-                current.Value = destination.Value;
-                current.LeftChild = destination.LeftChild;
-                current.RightChild = destination.RightChild;
-                destination = null;
+                if (nodeToBeRemoved == Root)
+                {
+                    Root = nodeToBeRemoved.LeftChild;
+                    Root.Parent = null;
+                }
+
+                else if (!isLeftChild)
+                {
+                    nodeToBeRemoved.Parent.RightChild = nodeToBeRemoved.LeftChild;
+                    nodeToBeRemoved.LeftChild.Parent = nodeToBeRemoved.Parent;
+                }
+
+                else
+                {
+                    nodeToBeRemoved.Parent.LeftChild = nodeToBeRemoved.LeftChild;
+                    nodeToBeRemoved.LeftChild.Parent = nodeToBeRemoved.Parent;
+                }
             }
 
             Size--;
         }
 
-        private BinarySearchTreeNode<TKey> SearchNodeR(BinarySearchTreeNode<TKey> current, TKey key)
+        private BinarySearchTreeNode<T> SearchNodeR(BinarySearchTreeNode<T> current, T key)
         {
             if (key.CompareTo(current.Value) < 0)
                 return SearchNodeR(current.LeftChild, key);
 
-            if (key.CompareTo(current.Value) < 0)
+            if (key.CompareTo(current.Value) > 0)
                 return SearchNodeR(current.RightChild, key);
 
             if (key.CompareTo(current.Value) == 0)
@@ -204,24 +220,72 @@ namespace DataStructures.Collections
             throw new KeyNotFoundException();
         }
 
-        public BinarySearchTreeNode<TKey> SearchNode(TKey key)
+        public BinarySearchTreeNode<T> SearchNode(T key)
         {
             return SearchNodeR(Root, key);
         }
 
-        public BinarySearchTreeNode<TKey>[] InOrderTraverse()
+        public BinarySearchTreeNode<T>[] InOrderTraverse()
         {
-            throw new NotImplementedException();
+            List<BinarySearchTreeNode<T>> keys = new List<BinarySearchTreeNode<T>>(Size); 
+
+            InOrderTraverseR(ref keys, Root);
+
+            return keys.ToArray();        
         }
 
-        public BinarySearchTreeNode<TKey>[] PreOrderTraverse()
+        private void InOrderTraverseR(ref List<BinarySearchTreeNode<T>> list, BinarySearchTreeNode<T> current)
         {
-            throw new NotImplementedException();
+            if (current == null)
+                return;
+
+            InOrderTraverseR(ref list, current.LeftChild);
+
+            list.Add(current);
+
+            InOrderTraverseR(ref list, current.RightChild);
         }
 
-        public BinarySearchTreeNode<TKey>[] PostOrderTraverse()
+        public BinarySearchTreeNode<T>[] PreOrderTraverse()
         {
-            throw new NotImplementedException();
+            List<BinarySearchTreeNode<T>> keys = new List<BinarySearchTreeNode<T>>(Size);
+
+            PreOrderTraverseR(ref keys, Root);
+
+            return keys.ToArray();
+        }
+
+        private void PreOrderTraverseR(ref List<BinarySearchTreeNode<T>> list, BinarySearchTreeNode<T> current)
+        {
+            if (current == null)
+                return;
+
+            PreOrderTraverseR(ref list, current.RightChild);
+
+            list.Add(current);
+
+            PreOrderTraverseR(ref list, current.LeftChild);
+        }
+
+        public BinarySearchTreeNode<T>[] PostOrderTraverse()
+        {
+            List<BinarySearchTreeNode<T>> keys = new List<BinarySearchTreeNode<T>>(Size);
+
+            PostOrderTraverseR(ref keys, Root);
+
+            return keys.ToArray();
+        }
+
+        private void PostOrderTraverseR(ref List<BinarySearchTreeNode<T>> list, BinarySearchTreeNode<T> current)
+        {
+            if (current == null)
+                return;
+
+            PostOrderTraverseR(ref list, current.LeftChild);
+
+            PostOrderTraverseR(ref list, current.RightChild);
+
+            list.Add(current);
         }
     }
 }

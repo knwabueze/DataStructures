@@ -9,7 +9,7 @@ namespace DataStructures.Collections
     public class BinarySearchTreeNode<T> : INode<T>
         where T : IComparable
     {
-        public int Value { get; set; }
+        public T Value { get; set; }
 
         public BinarySearchTreeNode<T> LeftChild { get; set; }
         public BinarySearchTreeNode<T> RightChild { get; set; }

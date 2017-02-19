@@ -68,6 +68,7 @@
     <Compile Include="Collections\INode.cs" />
     <Compile Include="Collections\CircularLinkedListNode.cs" />
     <Compile Include="Collections\IBinarySearchTree.cs" />
+    <Compile Include="Collections\Resorter.cs" />
     <Compile Include="Collections\SinglyLinkedListNode.cs" />
     <Compile Include="Collections\Queue.cs" />
     <Compile Include="Collections\SinglyLinkedList.cs" />

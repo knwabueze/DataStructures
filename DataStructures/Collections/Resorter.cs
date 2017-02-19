@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DataStructures.Collections
+{
+    public static class Resorter
+    {
+        public static void Sort<T>(this BinarySearchTree<T> tree)
+            where T : IComparable
+        {
+            var arr = tree.InOrderTraverse().ToList();
+
+            foreach (var member in arr)
+                tree.Remove(member.Value);
+
+            // Always find middle item of array
+            // Then split, then find middle item (Remember to always floor)
+
+            tree.Insert(arr[arr.Count() / 2].Value);
+            arr.Remove(arr[arr.Count() / 2]);
+
+            var subtrees = arr.Split();
+            SortR(subtrees[0], subtrees[1], tree);
+        }
+
+        private static List<T>[] Split<T>(this List<T> list)
+        {
+            List<T> list1 = new List<T>();
+            List<T> list2 = new List<T>();
+
+            for (int i = 0; i < list.Count() / 2; i++)
+            {
+                list1.Add(list[i]);
+            }
+
+            for (int j = list.Count() / 2; j < list.Count(); j++)
+            {
+                list2.Add(list[j]);
+            }
+
+            return new[] { list1, list2 };
+        }
+
+        private static void SortR<T>(List<BinarySearchTreeNode<T>> leftSubtree,
+            List<BinarySearchTreeNode<T>> rightSubtree,
+            BinarySearchTree<T> tree)
+            where T : IComparable
+        {
+            if (leftSubtree.Count() == 0 && rightSubtree.Count() == 0)
+                return;
+
+            if (leftSubtree.Count > 0)
+            {
+                tree.Insert(leftSubtree[leftSubtree.Count() / 2].Value);
+                leftSubtree.Remove(leftSubtree[leftSubtree.Count() / 2]);
+            }
+
+            if (rightSubtree.Count > 0)
+            {
+                tree.Insert(rightSubtree[rightSubtree.Count() / 2].Value);
+                rightSubtree.Remove(rightSubtree[rightSubtree.Count() / 2]);
+            }
+
+            SortR(leftSubtree, rightSubtree, tree);
+        }
+    }
+}
