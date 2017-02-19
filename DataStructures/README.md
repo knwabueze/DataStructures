@@ -5,10 +5,20 @@ Implemented using C#.
 
 ### Learned So Far:
 #### LinkedList:
-- Circular Doubly
+- Circular
+- Doubly
 - Singly
 
 #### Sorting:
 - BubbleSort
 - InsertionSort
 - SelectionSort
+- BinarySort
+
+#### First-In-Structures:
+- Stack
+- Queue
+
+#### Trees:
+- BinarySearchTree
+- BinaryTree
