@@ -52,7 +52,7 @@ namespace Calculator
                 numberQueue.Enqueue(int.Parse(main_label.Text));
                 currentNumberQueue.Clear();
 
-                switch (newSender.Tag)
+                switch ((string)newSender.Tag)
                 {
                     case "plus":
                         operationQueue.Enqueue(OperationType.ADD);

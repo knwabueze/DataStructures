@@ -1,0 +1,8 @@
+C:\Users\Kenneth\Documents\DataStructures\StudentTracker\bin\Debug\StudentTracker.exe.config
+C:\Users\Kenneth\Documents\DataStructures\StudentTracker\bin\Debug\StudentTracker.exe
+C:\Users\Kenneth\Documents\DataStructures\StudentTracker\bin\Debug\StudentTracker.pdb
+C:\Users\Kenneth\Documents\DataStructures\StudentTracker\bin\Debug\DataStructures.exe
+C:\Users\Kenneth\Documents\DataStructures\StudentTracker\bin\Debug\DataStructures.pdb
+C:\Users\Kenneth\Documents\DataStructures\StudentTracker\obj\Debug\StudentTracker.csprojResolveAssemblyReference.cache
+C:\Users\Kenneth\Documents\DataStructures\StudentTracker\obj\Debug\StudentTracker.exe
+C:\Users\Kenneth\Documents\DataStructures\StudentTracker\obj\Debug\StudentTracker.pdb

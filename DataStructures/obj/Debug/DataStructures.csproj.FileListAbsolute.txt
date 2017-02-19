@@ -9,3 +9,9 @@ C:\Users\creat\Documents\DataStructures\DataStructures\obj\Debug\DataStructures.
 C:\Users\creat\Documents\DataStructures\DataStructures\bin\Debug\DataStructures.exe.config
 C:\Users\creat\Documents\DataStructures\DataStructures\bin\Debug\DataStructures.exe
 C:\Users\creat\Documents\DataStructures\DataStructures\obj\Debug\DataStructures.exe
+C:\Users\Kenneth\Documents\DataStructures\DataStructures\bin\Debug\DataStructures.exe.config
+C:\Users\Kenneth\Documents\DataStructures\DataStructures\obj\Debug\DataStructures.exe
+C:\Users\Kenneth\Documents\DataStructures\DataStructures\obj\Debug\DataStructures.pdb
+C:\Users\Kenneth\Documents\DataStructures\DataStructures\bin\Debug\DataStructures.exe
+C:\Users\Kenneth\Documents\DataStructures\DataStructures\bin\Debug\DataStructures.pdb
+C:\Users\Kenneth\Documents\DataStructures\DataStructures\obj\Debug\DataStructures.csprojResolveAssemblyReference.cache
