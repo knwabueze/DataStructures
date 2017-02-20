@@ -1,6 +1,0 @@
-C:\Users\creat\Documents\BinarySearchTree\BinarySearchTree\bin\Debug\BinarySearchTree.exe.config
-C:\Users\creat\Documents\BinarySearchTree\BinarySearchTree\bin\Debug\BinarySearchTree.exe
-C:\Users\creat\Documents\BinarySearchTree\BinarySearchTree\bin\Debug\BinarySearchTree.pdb
-C:\Users\creat\Documents\BinarySearchTree\BinarySearchTree\obj\Debug\BinarySearchTree.csprojResolveAssemblyReference.cache
-C:\Users\creat\Documents\BinarySearchTree\BinarySearchTree\obj\Debug\BinarySearchTree.exe
-C:\Users\creat\Documents\BinarySearchTree\BinarySearchTree\obj\Debug\BinarySearchTree.pdb
