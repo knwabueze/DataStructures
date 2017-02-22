@@ -44,8 +44,9 @@ namespace Calculator
 
         private void OperationProccessing(object sender, EventArgs e)
         {
-            justAnswered = false;
+            justAnswered = false;                        
             Button newSender = sender as Button;
+
 
             if (currentNumberQueue.Count != 0)
             {

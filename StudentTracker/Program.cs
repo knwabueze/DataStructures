@@ -23,7 +23,7 @@ namespace StudentTracker
                     DateOfBirth = new DateTime(1999, 10, i + 1)
                 });
             }
-
+            
             studentTracker.Remove("1");
 
             studentTracker.Insert(new Student()
@@ -32,6 +32,8 @@ namespace StudentTracker
                 Email = "jerryjohsnon@schoolacademy.org",
                 DateOfBirth = new DateTime(2004, 9, 3)
             });
+
+            Student jerry = studentTracker.Search("Jerry Johnson");
 
             Console.WriteLine("---END---");
         }

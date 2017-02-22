@@ -68,7 +68,10 @@
     <Compile Include="Collections\INode.cs" />
     <Compile Include="Collections\CircularLinkedListNode.cs" />
     <Compile Include="Collections\IBinarySearchTree.cs" />
-    <Compile Include="Collections\Resorter.cs" />
+    <Compile Include="Collections\KeyValuePair.cs" />
+    <Compile Include="Collections\Map.cs" />
+    <Compile Include="Exceptions\KeyAlreadyExistsException.cs" />
+    <Compile Include="Sorting\Resorter.cs" />
     <Compile Include="Collections\SinglyLinkedListNode.cs" />
     <Compile Include="Collections\Queue.cs" />
     <Compile Include="Collections\SinglyLinkedList.cs" />

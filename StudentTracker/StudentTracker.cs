@@ -1,4 +1,5 @@
 ﻿using DataStructures.Collections;
+using DataStructures.Sorting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,9 +36,9 @@ namespace StudentTracker
             var arr = InOrderTraverse();
 
             var query =
-            from t in arr
-            where t.Value.Name == name
-            select t.Value;
+                from t in arr
+                where t.Value.Name == name
+                select t.Value;
 
             Remove(query.First());
             this.Sort();
@@ -48,12 +49,46 @@ namespace StudentTracker
             var arr = InOrderTraverse();
 
             var query =
-            from t in arr
-            where t.Value.UniqueID == uniqueID
-            select t.Value;
+                from t in arr
+                where t.Value.UniqueID == uniqueID
+                select t.Value;
 
             Remove(query.First());
             this.Sort();
+        }
+
+        public Student Search(string name)
+        {
+            return SearchNode(name).Value;
+        }
+
+        public Student Search(int uid)
+        {
+            return SearchNode(uid).Value;
+        }
+
+        public BinarySearchTreeNode<Student> SearchNode(string name)
+        {
+            var arr = InOrderTraverse();
+
+            var query =
+                from t in arr
+                where t.Value.Name == name
+                select t;
+
+            return query.First();
+        }
+
+        public BinarySearchTreeNode<Student> SearchNode(int uid)
+        {
+            var arr = InOrderTraverse();
+
+            var query =
+              from t in arr
+              where t.Value.UniqueID == uid
+              select t;
+
+            return query.First();
         }
     }
 }
