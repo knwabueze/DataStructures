@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
-    public class Map<K, V> : IEnumerable<V>
+    public class Map<K, V> : IEnumerable<KeyValuePair<K, V>>
         where V : IComparable
     {
         private BinarySearchTree<KeyValuePair<K, V>> backend;
@@ -69,12 +69,11 @@ namespace DataStructures.Collections
             backend.Remove(query.First());
         }
 
-        public IEnumerator<V> GetEnumerator()
         {
             var arr = backend.InOrderTraverse();
 
             foreach (var value in arr)
-                yield return value.Value.Value;
+                yield return value.Value;
         }
 
         IEnumerator IEnumerable.GetEnumerator()

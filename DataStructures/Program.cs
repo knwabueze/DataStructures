@@ -18,12 +18,12 @@ namespace DataStructures
             {
                 { "test", 3 },
                 { "test2", 4}
-            };
+            };            
 
             map.Add("test3", 4);
             map["test3"] = 8;
-            
-            Console.WriteLine(map["test"]);          
+
+            Console.WriteLine(map["test"]);
             Console.WriteLine(map["test3"]);
             Console.WriteLine(map["test2"]);
 
