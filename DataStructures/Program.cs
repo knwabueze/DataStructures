@@ -14,18 +14,13 @@ namespace DataStructures
     {
         public static void Main(string[] args)
         {
-            Map<string, int> map = new Map<string, int>
+            BinarySearchTree<int> bst = new BinarySearchTree<int>();
+            for (int i = 0; i < 8999; i++)
             {
-                { "test", 3 },
-                { "test2", 4}
-            };            
+                bst.Insert(MathUtils.Random.Next());
+            }
 
-            map.Add("test3", 4);
-            map["test3"] = 8;
-
-            Console.WriteLine(map["test"]);
-            Console.WriteLine(map["test3"]);
-            Console.WriteLine(map["test2"]);
+            bst.Sort();
 
             Console.ReadKey();
         }

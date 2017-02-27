@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DataStructures.Collections
 {
     public class KeyValuePair<K, V> : IComparable
-        where V : IComparable
+        where K : IComparable
     {
         public K Key { get; set; }
         public V Value { get; set; }
@@ -15,7 +15,7 @@ namespace DataStructures.Collections
         public int CompareTo(object obj)
         {
             KeyValuePair<K, V> toBeCompared = obj as KeyValuePair<K, V>;
-            return Value.CompareTo(toBeCompared.Value);
+            return Key.CompareTo(toBeCompared.Key);
         }
     }
 }

@@ -17,8 +17,7 @@ namespace DataStructures.Sorting
             foreach (var member in arr)
                 tree.Remove(member.Value);
 
-            // Always find middle item of array
-            // Then split, then find middle item (Remember to always floor)
+            // 0.5 0 1.5 1
 
             tree.Insert(arr[arr.Count() / 2].Value);
             arr.Remove(arr[arr.Count() / 2]);
