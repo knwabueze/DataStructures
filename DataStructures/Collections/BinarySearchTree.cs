@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
-    public class BinarySearchTree<T> : IBinarySearchTree<T>
+    public class BinarySearchTree<T, TNode> : IBinarySearchTree<T, TNode>, IEnumerable<TNode>
         where T : IComparable
+        where TNode : BinarySearchTreeNode<T, TNode>, new()
     {
-        public BinarySearchTreeNode<T> Root { get; private set; }
-        public int Size { get; private set; }
+        public TNode Root { get; protected set; }
+        public int Size { get; protected set; }
         public bool Empty { get { return Size == 0; } }
 
         public BinarySearchTree()
@@ -36,22 +37,26 @@ namespace DataStructures.Collections
             if (Root == null)
             {
                 Size++;
-                Root = new BinarySearchTreeNode<T>(value);
+                Root = new TNode()
+                {
+                    Value = value
+                };
                 return;
             }
 
             InsertR(Root, value);
         }
 
-        private void InsertR(BinarySearchTreeNode<T> parent, T value)
+        protected void InsertR(TNode parent, T value)
         {
             if (value.CompareTo(parent.Value) > 0)
             {
                 if (parent.RightChild == null)
                 {
                     Size++;
-                    parent.RightChild = new BinarySearchTreeNode<T>(value)
+                    parent.RightChild = new TNode()
                     {
+                        Value = value,
                         Parent = parent
                     };
                     return;
@@ -65,20 +70,21 @@ namespace DataStructures.Collections
                 if (parent.LeftChild == null)
                 {
                     Size++;
-                    parent.LeftChild = new BinarySearchTreeNode<T>(value)
+                    parent.LeftChild = new TNode()
                     {
+                        Value = value,
                         Parent = parent
                     };
                     return;
                 }
 
-                InsertR(parent.LeftChild, value);
+                InsertR((TNode)parent.LeftChild, value);
             }
         }
 
-        public BinarySearchTreeNode<T> IterativeFind(T value)
+        public TNode IterativeFind(T value)
         {
-            BinarySearchTreeNode<T> current = Root;
+            TNode current = Root;
             do
             {
                 if (value.CompareTo(current.Value) < 0)
@@ -94,9 +100,9 @@ namespace DataStructures.Collections
             throw new KeyNotFoundException();
         }
 
-        public BinarySearchTreeNode<T> Maximum()
+        public TNode Maximum()
         {
-            BinarySearchTreeNode<T> current = Root;
+            TNode current = Root;
 
             while (current.RightChild != null)
                 current = current.RightChild;
@@ -104,9 +110,9 @@ namespace DataStructures.Collections
             return current;
         }
 
-        public BinarySearchTreeNode<T> Minimum()
+        public TNode Minimum()
         {
-            BinarySearchTreeNode<T> current = Root;
+            TNode current = Root;
 
             while (current.LeftChild != null)
                 current = current.LeftChild;
@@ -116,9 +122,9 @@ namespace DataStructures.Collections
 
         public void Remove(T value)
         {
-            BinarySearchTreeNode<T> nodeToBeRemoved = SearchNode(value);
+            TNode nodeToBeRemoved = SearchNode(value);
             bool isLeftChild = false;
-            
+
             if (nodeToBeRemoved.Parent != null)
             {
                 if (nodeToBeRemoved.Value.CompareTo(nodeToBeRemoved.Parent.Value) < 0)
@@ -142,7 +148,7 @@ namespace DataStructures.Collections
 
             else if (nodeToBeRemoved.LeftChild != null && nodeToBeRemoved.RightChild != null)
             {
-                BinarySearchTreeNode<T> destination = nodeToBeRemoved.LeftChild;
+                TNode destination = nodeToBeRemoved.LeftChild;
 
                 while (destination.RightChild != null)
                     destination = destination.RightChild;
@@ -159,6 +165,7 @@ namespace DataStructures.Collections
                 {
                     destination.Parent.LeftChild = null;
                 }
+
             }
 
             else if (nodeToBeRemoved.RightChild != null)
@@ -206,7 +213,7 @@ namespace DataStructures.Collections
             Size--;
         }
 
-        private BinarySearchTreeNode<T> SearchNodeR(BinarySearchTreeNode<T> current, T key)
+        protected TNode SearchNodeR(TNode current, T key)
         {
             if (key.CompareTo(current.Value) < 0)
                 return SearchNodeR(current.LeftChild, key);
@@ -220,21 +227,21 @@ namespace DataStructures.Collections
             throw new KeyNotFoundException();
         }
 
-        public BinarySearchTreeNode<T> SearchNode(T key)
+        public TNode SearchNode(T key)
         {
             return SearchNodeR(Root, key);
         }
 
-        public BinarySearchTreeNode<T>[] InOrderTraverse()
+        public TNode[] InOrderTraverse()
         {
-            List<BinarySearchTreeNode<T>> keys = new List<BinarySearchTreeNode<T>>(Size); 
+            List<TNode> keys = new List<TNode>(Size);
 
             InOrderTraverseR(ref keys, Root);
 
-            return keys.ToArray();        
+            return keys.ToArray();
         }
 
-        private void InOrderTraverseR(ref List<BinarySearchTreeNode<T>> list, BinarySearchTreeNode<T> current)
+        protected void InOrderTraverseR(ref List<TNode> list, TNode current)
         {
             if (current == null)
                 return;
@@ -246,16 +253,16 @@ namespace DataStructures.Collections
             InOrderTraverseR(ref list, current.RightChild);
         }
 
-        public BinarySearchTreeNode<T>[] PreOrderTraverse()
+        public TNode[] PreOrderTraverse()
         {
-            List<BinarySearchTreeNode<T>> keys = new List<BinarySearchTreeNode<T>>(Size);
+            List<TNode> keys = new List<TNode>(Size);
 
             PreOrderTraverseR(ref keys, Root);
 
             return keys.ToArray();
         }
 
-        private void PreOrderTraverseR(ref List<BinarySearchTreeNode<T>> list, BinarySearchTreeNode<T> current)
+        protected void PreOrderTraverseR(ref List<TNode> list, TNode current)
         {
             if (current == null)
                 return;
@@ -267,25 +274,46 @@ namespace DataStructures.Collections
             PreOrderTraverseR(ref list, current.LeftChild);
         }
 
-        public BinarySearchTreeNode<T>[] PostOrderTraverse()
+        public TNode[] PostOrderTraverse()
         {
-            List<BinarySearchTreeNode<T>> keys = new List<BinarySearchTreeNode<T>>(Size);
+            List<TNode> keys = new List<TNode>(Size);
 
             PostOrderTraverseR(ref keys, Root);
 
             return keys.ToArray();
         }
 
-        private void PostOrderTraverseR(ref List<BinarySearchTreeNode<T>> list, BinarySearchTreeNode<T> current)
+        protected void PostOrderTraverseR(ref List<TNode> list, TNode current)
         {
             if (current == null)
                 return;
 
-            PostOrderTraverseR(ref list, current.LeftChild);
+            PostOrderTraverseR(ref list, current.LeftChild as TNode);
 
-            PostOrderTraverseR(ref list, current.RightChild);
+            PostOrderTraverseR(ref list, current.RightChild as TNode);
 
             list.Add(current);
+        }
+
+        public IEnumerator<TNode> GetEnumerator()
+        {
+            foreach (var val in InOrderTraverse())
+                yield return val;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+    public class BinarySearchTree<T> : BinarySearchTree<T, BinarySearchTreeNode<T>>
+        where T : IComparable
+    {
+        public BinarySearchTree() : base()
+        {
+        }
+        public BinarySearchTree(params T[] nodes) : base(nodes)
+        {
         }
     }
 }
