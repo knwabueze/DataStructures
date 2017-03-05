@@ -44,7 +44,8 @@ namespace DataStructures.Collections
             var query =
                 from t in backend.InOrderTraverse()
                 where key.Equals(t.Value.Key)
-                select t.Value;
+                orderby t.Value descending
+                select t.Value;            
 
             if (!query.Any())
             {

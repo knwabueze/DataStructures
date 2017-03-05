@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
-    public interface IBinarySearchTree<TKey>
-        where TKey : IComparable
+    public interface IBinarySearchTree<T, TNode>
+        where T : IComparable
+        where TNode : INode<T>
     {
-        void Insert(TKey value);
-        void Remove(TKey value);
+        void Insert(T value);
+        void Remove(T value);
         void Clear();
 
-        BinarySearchTreeNode<TKey>[] InOrderTraverse();
-        BinarySearchTreeNode<TKey>[] PreOrderTraverse();
-        BinarySearchTreeNode<TKey>[] PostOrderTraverse();
+        TNode[] InOrderTraverse();
+        TNode[] PreOrderTraverse();
+        TNode[] PostOrderTraverse();
+        
+        TNode SearchNode(T key);
+        TNode IterativeFind(T key);
 
-        BinarySearchTreeNode<TKey> SearchNode(TKey key);
-        BinarySearchTreeNode<TKey> IterativeFind(TKey key);
-
-        BinarySearchTreeNode<TKey> Minimum();
-        BinarySearchTreeNode<TKey> Maximum();
+        TNode Minimum();
+        TNode Maximum();
     }
 }

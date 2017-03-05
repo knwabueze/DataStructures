@@ -14,15 +14,7 @@ namespace DataStructures
     {
         public static void Main(string[] args)
         {
-            BinarySearchTree<int> bst = new BinarySearchTree<int>();
-            for (int i = 0; i < 8999; i++)
-            {
-                bst.Insert(MathUtils.Random.Next());
-            }
-
-            bst.Sort();
-
-            Console.ReadKey();
+            AVLTree<int> avl = new AVLTree<int>(4, 2, 6, 1, 7, 3, 5);
         }
     }
 }

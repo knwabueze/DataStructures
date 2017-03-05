@@ -92,17 +92,6 @@ namespace DataStructures.Collections
             Tail = null;
         }
 
-        public bool Contains(T value)
-        {
-            foreach (SinglyLinkedListNode<T> node in Nodes)
-            {
-                if (value.Equals(node.Value))
-                    return true;
-            }
-
-            return false;
-        }
-
         public int Count()
         {
             return Size;

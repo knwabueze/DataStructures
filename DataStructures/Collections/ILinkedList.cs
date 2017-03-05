@@ -8,17 +8,16 @@ namespace DataStructures.Collections
 {
     public interface ILinkedList<T>
     {
-        T Add(int index, T value);        
+        T Add(int index, T value);
         T Add(T value);
         T Remove(int index);
 
         T Get(int index);
         T Set(int index, T value);
 
-        int IndexOf(T value);        
-        bool Contains(T value);        
+        int IndexOf(T value);
 
-        int Count();        
+        int Count();
         void Clear();
 
         T this[int i] { get; set; }

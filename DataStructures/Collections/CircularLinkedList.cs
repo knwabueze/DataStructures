@@ -70,20 +70,7 @@ namespace DataStructures.Collections
 
             return value;
         }
-
-        public bool Contains(T value)
-        {
-            bool contains = false;
-            for (int i = 0; i < Count(); i++)
-            {
-                if (Get(i).Equals(value))
-                {
-                    contains = true;
-                }
-            }
-
-            return contains;
-        }
+        
 
         public T Get(int index)
         {
