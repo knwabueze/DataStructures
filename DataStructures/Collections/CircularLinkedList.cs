@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
-    public class CircularLinkedList<T> : ILinkedList<T>, IEnumerable<T>
+    public class CircularLinkedList<T> : ILinkedList<T>, IEnumerable<CircularLinkedListNode<T>>
     {
         public CircularLinkedListNode<T> Head { get; private set; }
 
@@ -177,12 +177,9 @@ namespace DataStructures.Collections
             Head = null;
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerator<CircularLinkedListNode<T>> GetEnumerator()
         {
-            foreach (CircularLinkedListNode<T> node in Nodes)
-            {
-                yield return node.Value;
-            }
+            return Nodes.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -11,25 +11,38 @@ namespace DataStructures.Collections
     {
         public AVLTreeNode()
         {
-            Height = 1;
-
-            AVLTreeNode<T> current = this;
-
-            while (current.Parent != null)
-            {
-                if (current.Height == current.Parent.Height)
-                    current.Parent.Height++;
-
-                current = current.Parent;
-            }
         }
 
         public override string ToString()
         {
-            return Value.ToString();
+            return Value.ToString() + "( Balance: " + Balance + "," + "Height: " + Height + ")";
         }
 
-        public int Height { get; set; }
+        public void SwitchValuesWithNode(AVLTreeNode<T> node)
+        {
+            var intermediateValue = this.Value;
+            Value = node.Value;
+            node.Value = intermediateValue;
+        }
+
+        public int Height
+        {
+            get
+            {
+                if (LeftChild == null && RightChild == null)
+                    return 1;
+
+                int left = 0;
+                int right = 0;
+
+                if (LeftChild != null)
+                    left = LeftChild.Height;
+                if (RightChild != null)
+                    right = RightChild.Height;
+
+                return Math.Max(left, right) + 1;
+            }
+        }
         public int Balance
         {
             get
@@ -43,7 +56,7 @@ namespace DataStructures.Collections
                 if (RightChild != null)
                     right = RightChild.Height;
 
-                return left - right;
+                return right - left;
             }
         }
     }

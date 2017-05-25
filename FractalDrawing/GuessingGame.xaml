@@ -1,0 +1,15 @@
+﻿<Window x:Class="FractalDrawing.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FractalDrawing"
+        mc:Ignorable="d"
+        Title="Guessing Game" Height="538.326" Width="788.506">
+    <Grid>
+        <Label Name="GuessingLabel"  Content="?" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,240" FontFamily="Roboto Mono for Powerline" FontSize="72"/>
+        <TextBox Name="GuessingBox" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,40,0,0" Width="200" Height="40" FontFamily="Roboto Mono for Powerline" FontSize="36" PreviewTextInput="GuessingBox_PreviewTextInput" />
+        <Label Name="HintingLabel" Content="Choose a number 1-100" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,150,0,0" FontFamily="Roboto Mono for Powerline" FontSize="18"/>
+        <Button Name="SubmitButton" Content="Submit"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Height="60" Margin="0,350,0,0" FontSize="24" FontFamily="Roboto Mono for Powerline" Background="White" Click="SubmitButton_Click"/>
+    </Grid>
+</Window>

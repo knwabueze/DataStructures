@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
-    public class SinglyLinkedList<T> : ILinkedList<T>, IEnumerable<T>
+    public class SinglyLinkedList<T> : ILinkedList<T>, IEnumerable<SinglyLinkedListNode<T>>
     {
         public int Size
         {
@@ -102,7 +102,7 @@ namespace DataStructures.Collections
             return GetNode(index).Value;
         }
 
-        private SinglyLinkedListNode<T> GetNode(int index)
+        public SinglyLinkedListNode<T> GetNode(int index)
         {
             int counter = 0;
             foreach (SinglyLinkedListNode<T> node in Nodes)
@@ -116,14 +116,16 @@ namespace DataStructures.Collections
             throw new KeyNotFoundException();
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerator<SinglyLinkedListNode<T>> GetEnumerator()
         {
-            foreach (SinglyLinkedListNode<T> node in Nodes)
-                yield return node.Value;
+            return Nodes.GetEnumerator();
         }
 
         public int IndexOf(T value)
         {
+            if (value.Equals(Head.Value))
+                return 0;
+
             for (int i = 0; i < Size; i++)
             {
                 if (GetNode(i).Value.Equals(value))
@@ -140,6 +142,8 @@ namespace DataStructures.Collections
 
             GetNode(index - 1).Next = current.Next;
             current = null;
+
+            Size--;
 
             return value;
         }

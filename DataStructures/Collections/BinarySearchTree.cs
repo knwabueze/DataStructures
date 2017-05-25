@@ -32,22 +32,23 @@ namespace DataStructures.Collections
             Root = null;
         }
 
-        public void Insert(T value)
+        public TNode Insert(T value)
         {
             if (Root == null)
             {
                 Size++;
                 Root = new TNode()
                 {
-                    Value = value
+                    Value = value,
+                    Parent = null
                 };
-                return;
+                return Root;
             }
 
-            InsertR(Root, value);
+            return InsertR(Root, value);
         }
 
-        protected void InsertR(TNode parent, T value)
+        protected TNode InsertR(TNode parent, T value)
         {
             if (value.CompareTo(parent.Value) > 0)
             {
@@ -59,10 +60,10 @@ namespace DataStructures.Collections
                         Value = value,
                         Parent = parent
                     };
-                    return;
+                    return parent.RightChild;
                 }
 
-                InsertR(parent.RightChild, value);
+                return InsertR(parent.RightChild, value);
             }
 
             else if (value.CompareTo(parent.Value) <= 0)
@@ -75,11 +76,13 @@ namespace DataStructures.Collections
                         Value = value,
                         Parent = parent
                     };
-                    return;
+                    return parent.LeftChild;
                 }
 
-                InsertR((TNode)parent.LeftChild, value);
+                return InsertR(parent.LeftChild, value);
             }
+
+            return default(TNode);
         }
 
         public TNode IterativeFind(T value)

@@ -54,7 +54,7 @@ namespace DataStructures.Collections
 
         public IEnumerator<T> GetEnumerator()
         {
-            return backend.GetEnumerator();
+            return backend.Select(item => item.Value).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

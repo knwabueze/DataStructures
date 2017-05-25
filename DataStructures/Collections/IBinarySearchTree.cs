@@ -10,7 +10,7 @@ namespace DataStructures.Collections
         where T : IComparable
         where TNode : INode<T>
     {
-        void Insert(T value);
+        TNode Insert(T value);
         void Remove(T value);
         void Clear();
 
