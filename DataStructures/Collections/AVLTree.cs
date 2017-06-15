@@ -17,25 +17,20 @@ namespace DataStructures.Collections
             return node;
         }
 
-        //public new void Remove(T value)
-        //{
-        //   // AVLTreeNode<T> shiftNode = SearchNode(value).Parent;
-
-        //    base.Remove(value);
-
-        //    //if (shiftNode != null)
-        //      //  CheckBalance(shiftNode);
-        //}
+        public new void Remove(T value)
+        {
+            AVLTreeNode<T> parent = base.SearchNode(value).Parent;
+            base.Remove(value);
+            CheckBalance(parent);
+        }
 
         protected void CheckBalance(AVLTreeNode<T> subject)
         {
-            // right top heavy
             if (subject.Balance > 1)
             {
                 RotateLeft(subject);
             }
 
-            // left top heavy
             else if (subject.Balance < -1)
             {
                 RotateRight(subject);
@@ -47,187 +42,151 @@ namespace DataStructures.Collections
             CheckBalance(subject.Parent);
         }
 
-        //       x        
-        //      / \
-        //     s   f
         protected void RotateLeft(AVLTreeNode<T> subject)
         {
-            #region Deprecated RotateLeft
-            //AVLTreeNode<T> newNode = subject.RightChild;
+            // Collect references for nodes involved in rotation
+            var fulcrum = subject.RightChild;
+            var leftFulcrum = fulcrum.LeftChild;
+            var rightFulcrum = fulcrum.RightChild;
+            var subjectParent = subject.Parent;
 
-            //while (newNode.LeftChild != null)
-            //    newNode = newNode.LeftChild;
-
-            ////subject.LeftChild = subject.Parent;
-            ////subject.Parent = subject.LeftChild.Parent;
-
-            //newNode.Parent.LeftChild = null;
-
-            //newNode = subject.Parent;
-            //subject.Parent = newNode.LeftChild.Parent;
-
-            ////if (subject.LeftChild == Root)
-            ////    Root = subject;
-
-            //if (newNode.LeftChild == Root)
-            //    Root = subject;
-
-            ////subject.LeftChild.Parent = subject;
-            ////subject.LeftChild.RightChild = null;
-
-            //newNode.LeftChild.Parent = subject;
-            //newNode.LeftChild.RightChild = null;
-
-            ////{
-            ////    Root.Height--;
-            ////    List<AVLTreeNode<T>> query = new List<AVLTreeNode<T>>();
-            ////    InOrderTraverseR(ref query, subject.LeftChild);
-
-            ////    foreach (var result in query)
-            ////        result.Height -= 2;
-
-            ////}
-
-            //{
-            //    Root.Height--;
-            //    List<AVLTreeNode<T>> query = new List<AVLTreeNode<T>>();
-            //    InOrderTraverseR(ref query, newNode);
-
-            //    foreach (var result in query)
-            //        result.Height -= 2;
-            //}
-
-            ////if (subject.Parent == null)
-            ////    return;
-
-            ////else if (subject.Value.CompareTo(subject.Parent.Value) <= 0)
-            ////    subject.Parent.LeftChild = subject;
-
-            ////else
-            ////    subject.Parent.RightChild = subject;
-
-            //if (subject.Parent == null)
-            //    return;
-
-            //else if (subject.Value.CompareTo(subject.Parent.Value) <= 0)
-            //    subject.Parent.LeftChild = subject;
-
-            //else
-            //    subject.Parent.RightChild = subject;
-            #endregion
-
-            AVLTreeNode<T> elect = subject.RightChild;
-
-            while (elect.LeftChild != null)
-                elect = elect.LeftChild;
-
-            // Check if double rotation
-            if (subject.RightChild != elect)
+            if (leftFulcrum != null)
             {
-                // This check doesn't make anysense, revise
-                //if (elect.LeftChild != null)
-                //{
-                //    elect.LeftChild.Parent = subject;
-                //    subject.RightChild = elect.LeftChild;
-                //}                
+                if (fulcrum.Balance != 1)
+                {
+                    RotateRight(fulcrum);
+                    fulcrum = leftFulcrum;
+                    leftFulcrum = fulcrum.LeftChild;
+                }
 
-                subject.RightChild.Parent = elect;
-                subject.RightChild.LeftChild = null;
-                elect.RightChild = subject.RightChild;
-                subject.RightChild = null;
             }
+            subject.RightChild = leftFulcrum;
+
             if (subject != Root)
             {
-                elect.Parent = subject.Parent;
+                if (subjectParent.LeftChild == subject) subjectParent.LeftChild = fulcrum;
 
-                if (subject.Parent.LeftChild == subject)
-                    elect.Parent.LeftChild = elect;
+                else subjectParent.RightChild = fulcrum;
 
-                else
-                    subject.Parent.RightChild = elect;
+                fulcrum.Parent = subjectParent;
             }
             else
             {
-                elect.Parent = null;
-                Root = elect;
+                fulcrum.Parent = null;
+                Root = fulcrum;
             }
 
-            subject.RightChild = null;
-            elect.LeftChild = subject;
-            subject.Parent = elect;
+
+            fulcrum.LeftChild = subject;
+            subject.Parent = fulcrum;
+
+            #region Keep Here
+            //var elect = subject.RightChild;
+            //var rightLeft = elect.LeftChild;
+
+            //subject.RightChild = rightLeft;
+
+            //if (rightLeft != null)
+            //{
+            //    if (elect.Balance == 0)
+            //    {
+            //        RotateRight(rightLeft);
+            //        subject = rightLeft;                    
+            //    }
+            //    rightLeft.Parent = subject;
+            //}
+
+            //if (subject != Root)
+            //{
+            //    elect.Parent = subject.Parent;
+
+            //    if (subject.Parent.LeftChild == subject)
+            //        elect.Parent.LeftChild = elect;
+
+            //    else
+            //        subject.Parent.RightChild = elect;
+            //}
+            //else
+            //{
+            //    elect.Parent = null;
+            //    Root = elect;
+            //}
+
+            //elect.LeftChild = subject;
+            //subject.Parent = elect;
+            #endregion
         }
 
         protected void RotateRight(AVLTreeNode<T> subject)
         {
-            #region Deprecated RotateRight
-            //subject.RightChild = subject.Parent;
-            //subject.Parent = subject.RightChild.Parent;
+            var fulcrum = subject.LeftChild;
+            var rightFulcrum = fulcrum.RightChild;
+            var leftFulcrum = fulcrum.LeftChild;
+            var subjectParent = subject.Parent;            
 
-            //if (subject.RightChild == Root)
-            //    Root = subject;
-
-            //subject.RightChild.Parent = subject;
-            //subject.RightChild.LeftChild = null;
-
-            //{
-            //    Root.Height--;
-            //    List<AVLTreeNode<T>> query = new List<AVLTreeNode<T>>();
-            //    InOrderTraverseR(ref query, subject.RightChild);
-
-            //    foreach (var result in query)
-            //        result.Height -= 2;
-
-            //}
-
-            //if (subject.Parent == null)
-            //    return;
-
-            //else if (subject.Value.CompareTo(subject.Parent.Value) <= 0)
-            //    subject.Parent.RightChild = subject;
-
-            //else
-            //    subject.Parent.LeftChild = subject;
-            #endregion
-
-            AVLTreeNode<T> elect = subject.LeftChild;
-
-            while (elect.RightChild != null)
-                elect = elect.RightChild;
-
-            // Check if double rotation
-            if (subject.LeftChild != elect)
+            if (rightFulcrum != null)
             {
-                // This check doesn't make anysense, revise
-                //if (elect.LeftChild != null)
-                //{
-                //    elect.LeftChild.Parent = subject;
-                //    subject.RightChild = elect.LeftChild;
-                //}                
-
-                subject.LeftChild.Parent = elect;
-                subject.LeftChild.RightChild = null;
-                elect.LeftChild = subject.LeftChild;
-                subject.LeftChild = null;
+                if (fulcrum.Balance != -1)
+                {
+                    RotateLeft(fulcrum);
+                    fulcrum = rightFulcrum;
+                    rightFulcrum = fulcrum.RightChild;
+                }
             }
+            subject.LeftChild = rightFulcrum;
+
             if (subject != Root)
             {
-                elect.Parent = subject.Parent;
+                if (subjectParent.LeftChild == subject) subjectParent.LeftChild = fulcrum;
 
-                if (subject.Parent.LeftChild == subject)
-                    subject.Parent.LeftChild = elect;
+                else subjectParent.RightChild = fulcrum;
 
-                else
-                    subject.Parent.RightChild = elect;
+                fulcrum.Parent = subjectParent;
             }
             else
             {
-                elect.Parent = null;
-                Root = elect;
+                fulcrum.Parent = null;
+                Root = fulcrum;
             }
 
-            subject.LeftChild = null;
-            elect.RightChild = subject;
-            subject.Parent = elect;
+            fulcrum.RightChild = subject;
+            subject.Parent = fulcrum;
+
+            #region Keep Here 
+            //var elect = subject.LeftChild; // 4
+            //var leftRight = elect.RightChild; // R
+
+            //subject.LeftChild = leftRight;
+
+            //if (leftRight != null)
+            //{
+            //    if (elect.Balance == 0)
+            //    {
+            //        RotateLeft(elect);
+            //        subject = leftRight;
+            //    }
+            //    leftRight.Parent = subject;
+            //}
+
+            //if (subject != Root)
+            //{
+            //    elect.Parent = subject.Parent;
+
+            //    if (subject.Parent.LeftChild == subject)
+            //        elect.Parent.LeftChild = elect;
+
+            //    else
+            //        subject.Parent.RightChild = elect;
+            //}
+            //else
+            //{
+            //    elect.Parent = null;
+            //    Root = elect;
+            //}
+
+            //elect.RightChild = subject;
+            //subject.Parent = elect;
+            #endregion
         }
 
         public AVLTree() : base()

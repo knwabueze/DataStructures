@@ -15,33 +15,41 @@ namespace DataStructures.Collections
 
         public override string ToString()
         {
-            return Value.ToString() + "( Balance: " + Balance + "," + "Height: " + Height + ")";
-        }
+            return Value.ToString() + "( Balance: " + Balance + "," + "Height: " + GetHeight() + ")";
+        }        
 
-        public void SwitchValuesWithNode(AVLTreeNode<T> node)
+        public bool HasChildren()
         {
-            var intermediateValue = this.Value;
-            Value = node.Value;
-            node.Value = intermediateValue;
-        }
+            bool left = false;
+            bool right = false;
 
-        public int Height
-        {
-            get
+            if (LeftChild != null)
             {
-                if (LeftChild == null && RightChild == null)
-                    return 1;
-
-                int left = 0;
-                int right = 0;
-
-                if (LeftChild != null)
-                    left = LeftChild.Height;
-                if (RightChild != null)
-                    right = RightChild.Height;
-
-                return Math.Max(left, right) + 1;
+                left = true;
             }
+
+            if (RightChild != null)
+            {
+                right = true;
+            }
+
+            return left || right;
+        }
+
+        public int GetHeight()
+        {
+            if (LeftChild == null && RightChild == null)
+                return 1;
+
+            int left = 0;
+            int right = 0;
+
+            if (LeftChild != null)
+                left = LeftChild.GetHeight();
+            if (RightChild != null)
+                right = RightChild.GetHeight();
+
+            return Math.Max(left, right) + 1;
         }
         public int Balance
         {
@@ -51,10 +59,10 @@ namespace DataStructures.Collections
                 int right = 0;
 
                 if (LeftChild != null)
-                    left = LeftChild.Height;
+                    left = LeftChild.GetHeight();
 
                 if (RightChild != null)
-                    right = RightChild.Height;
+                    right = RightChild.GetHeight();
 
                 return right - left;
             }

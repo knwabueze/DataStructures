@@ -72,6 +72,9 @@
     <Compile Include="Collections\IBinarySearchTree.cs" />
     <Compile Include="Collections\KeyValuePair.cs" />
     <Compile Include="Collections\Map.cs" />
+    <Compile Include="Collections\RedBlackTree.cs" />
+    <Compile Include="Collections\RedBlackTreeNode.cs" />
+    <Compile Include="Exceptions\IsNILException.cs" />
     <Compile Include="Exceptions\KeyAlreadyExistsException.cs" />
     <Compile Include="Sorting\Resorter.cs" />
     <Compile Include="Collections\SinglyLinkedListNode.cs" />
