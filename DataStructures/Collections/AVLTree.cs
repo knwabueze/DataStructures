@@ -79,42 +79,6 @@ namespace DataStructures.Collections
 
             fulcrum.LeftChild = subject;
             subject.Parent = fulcrum;
-
-            #region Keep Here
-            //var elect = subject.RightChild;
-            //var rightLeft = elect.LeftChild;
-
-            //subject.RightChild = rightLeft;
-
-            //if (rightLeft != null)
-            //{
-            //    if (elect.Balance == 0)
-            //    {
-            //        RotateRight(rightLeft);
-            //        subject = rightLeft;                    
-            //    }
-            //    rightLeft.Parent = subject;
-            //}
-
-            //if (subject != Root)
-            //{
-            //    elect.Parent = subject.Parent;
-
-            //    if (subject.Parent.LeftChild == subject)
-            //        elect.Parent.LeftChild = elect;
-
-            //    else
-            //        subject.Parent.RightChild = elect;
-            //}
-            //else
-            //{
-            //    elect.Parent = null;
-            //    Root = elect;
-            //}
-
-            //elect.LeftChild = subject;
-            //subject.Parent = elect;
-            #endregion
         }
 
         protected void RotateRight(AVLTreeNode<T> subject)
@@ -151,42 +115,6 @@ namespace DataStructures.Collections
 
             fulcrum.RightChild = subject;
             subject.Parent = fulcrum;
-
-            #region Keep Here 
-            //var elect = subject.LeftChild; // 4
-            //var leftRight = elect.RightChild; // R
-
-            //subject.LeftChild = leftRight;
-
-            //if (leftRight != null)
-            //{
-            //    if (elect.Balance == 0)
-            //    {
-            //        RotateLeft(elect);
-            //        subject = leftRight;
-            //    }
-            //    leftRight.Parent = subject;
-            //}
-
-            //if (subject != Root)
-            //{
-            //    elect.Parent = subject.Parent;
-
-            //    if (subject.Parent.LeftChild == subject)
-            //        elect.Parent.LeftChild = elect;
-
-            //    else
-            //        subject.Parent.RightChild = elect;
-            //}
-            //else
-            //{
-            //    elect.Parent = null;
-            //    Root = elect;
-            //}
-
-            //elect.RightChild = subject;
-            //subject.Parent = elect;
-            #endregion
         }
 
         public AVLTree() : base()

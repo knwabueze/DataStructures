@@ -87,7 +87,7 @@ namespace DataStructures.Collections
             Root.Color = RedBlack.Black;
         }
 
-        public void FirstCheck(RedBlackTreeNode<T> node)
+        protected void FirstCheck(RedBlackTreeNode<T> node)
         {
             var parent = node.Parent;
             var gp = parent.Parent;
@@ -101,7 +101,7 @@ namespace DataStructures.Collections
             }
         }
 
-        public void SecondCheck(RedBlackTreeNode<T> node)
+        protected void SecondCheck(RedBlackTreeNode<T> node)
         {
             var parent = node.Parent;
             var gp = parent.Parent;
@@ -111,6 +111,60 @@ namespace DataStructures.Collections
             if (isRightAndParentLeft)
             {
             }
+        }
+
+        protected void RotateLeft(RedBlackTreeNode<T> subject)
+        {
+            var fulcrum = subject.RightChild;
+            var leftFulcrum = fulcrum.LeftChild;
+            var rightFulcrum = fulcrum.RightChild;
+            var subjectParent = subject.Parent;
+
+            subject.RightChild = leftFulcrum;
+
+            if (subject != Root)
+            {
+                if (subjectParent.LeftChild == subject) subjectParent.LeftChild = fulcrum;
+
+                else subjectParent.RightChild = fulcrum;
+
+                fulcrum.Parent = subjectParent;
+            }
+            else
+            {
+                fulcrum.Parent = null;
+                Root = fulcrum;
+            }
+
+            fulcrum.LeftChild = subject;
+            subject.Parent = fulcrum;
+        }
+
+        protected void RotateRight(RedBlackTreeNode<T> subject)
+        {
+            var fulcrum = subject.LeftChild;
+            var rightFulcrum = fulcrum.RightChild;
+            var leftFulcrum = fulcrum.LeftChild;
+            var subjectParent = subject.Parent;
+
+            subject.LeftChild = rightFulcrum;
+
+            if (subject != Root)
+            {
+                if (subjectParent.LeftChild == subject) subjectParent.LeftChild = fulcrum;
+
+                else subjectParent.RightChild = fulcrum;
+
+                fulcrum.Parent = subjectParent;
+            }
+            else
+            {
+                fulcrum.Parent = null;
+                Root = fulcrum;
+            }
+
+            fulcrum.RightChild = subject;
+            subject.Parent = fulcrum;
         }
     }
 }
