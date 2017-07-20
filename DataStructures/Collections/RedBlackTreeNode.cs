@@ -5,26 +5,27 @@ namespace DataStructures.Collections
     public class RedBlackTreeNode<T> : BinarySearchTreeNode<T, RedBlackTreeNode<T>>
         where T : IComparable
     {
+        public RedBlack Color { get; set; }
         public bool IsNIL { get; set; }
 
-        protected RedBlack _color;
-
-        public RedBlack Color
+        public RedBlackTreeNode()
         {
-            get
-            {
-                if (IsNIL)
-                    return RedBlack.Black;
-                return _color;
-            }
+            this.Color = RedBlack.Red;
+            this.IsNIL = false;
+        }
 
-            set
+        public static readonly RedBlackTreeNode<T> NILNode = new RedBlackTreeNode<T>()
+        {
+            Color = RedBlack.Black,
+            IsNIL = true 
+        };
+
+        public RedBlackTreeNode<T> Copy()
+        {
+            return new RedBlackTreeNode<T>()
             {
-                if (!IsNIL)
-                    _color = value;
-                else
-                    _color = RedBlack.Black;
-            }
+                Color = this.Color
+            };
         }
     }
 
