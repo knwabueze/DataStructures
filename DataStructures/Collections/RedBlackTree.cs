@@ -7,9 +7,24 @@ using System.Threading.Tasks;
 namespace DataStructures.Collections
 {
     // Rule check for adding is different than rule check for deleting
+    // So far Checks 1, 4, and 5 are working and tested
+    // Checks 2 and 3 have not been tested
     public class RedBlackTree<T> : BinarySearchTree<T, RedBlackTreeNode<T>>
         where T : IComparable
     {
+        public readonly List<Action<RedBlackTreeNode<T>>> Checks;
+
+        public RedBlackTree()
+            : base()
+        {
+            Checks = new List<Action<RedBlackTreeNode<T>>>();
+            Checks.Add(FirstCheck);
+            Checks.Add(SecondCheck);
+            Checks.Add(ThirdCheck);
+            Checks.Add(FourthCheck);
+            Checks.Add(FifthCheck);
+        }
+
         public new RedBlackTreeNode<T> Insert(T value)
         {
             if (Root == null)
@@ -34,7 +49,7 @@ namespace DataStructures.Collections
 
         public new RedBlackTreeNode<T> InsertR(RedBlackTreeNode<T> parent, T value)
         {
-            if (value.CompareTo(parent.Value) > 0)
+            if (value.CompareTo(parent.Value) >= 0)
             {
                 if (parent.RightChild.IsNIL)
                 {
@@ -51,7 +66,7 @@ namespace DataStructures.Collections
                 return InsertR(parent.RightChild, value);
             }
 
-            else if (value.CompareTo(parent.Value) <= 0)
+            else if (value.CompareTo(parent.Value) < 0)
             {
                 if (parent.LeftChild.IsNIL)
                 {
@@ -78,10 +93,18 @@ namespace DataStructures.Collections
 
         public void RuleCheck(RedBlackTreeNode<T> node)
         {
-            if (node.Color == RedBlack.Red && node.Parent.Color == RedBlack.Red)
+            var currentNode = node;
+
+            while (currentNode.Color == RedBlack.Red && currentNode.Parent.Color == RedBlack.Red)
             {
-                FirstCheck(node);
-                RuleCheck(node.Parent);
+                foreach (var method in Checks)
+                {
+                    method.Invoke(currentNode);
+
+                    if (currentNode.Color != RedBlack.Red || currentNode.Parent.Color != RedBlack.Red) break;
+                }
+
+                currentNode = node.Parent;
             }
 
             Root.Color = RedBlack.Black;
@@ -106,10 +129,50 @@ namespace DataStructures.Collections
             var parent = node.Parent;
             var gp = parent.Parent;
 
-            var isRightAndParentLeft = parent.RightChild == node && gp.LeftChild == parent;
-
-            if (isRightAndParentLeft)
+            if (parent.RightChild == node && gp.LeftChild == parent)
             {
+                RotateLeft(parent);
+                FourthCheck(node);
+            }
+        }
+
+        protected void ThirdCheck(RedBlackTreeNode<T> node)
+        {
+            var parent = node.Parent;
+            var gp = parent.Parent;
+
+            if (parent.LeftChild == node && gp.RightChild == parent)
+            {
+                RotateRight(parent);
+                FifthCheck(node);
+            }
+        }
+
+        protected void FourthCheck(RedBlackTreeNode<T> node)
+        {
+            var parent = node.Parent;
+            var gp = parent.Parent;
+
+            if (parent.LeftChild == node && gp.LeftChild == parent)
+            {
+                RotateRight(gp);
+
+                parent.Color = RedBlack.Black;
+                gp.Color = RedBlack.Red;
+            }
+        }
+
+        protected void FifthCheck(RedBlackTreeNode<T> node)
+        {
+            var parent = node.Parent;
+            var gp = parent.Parent;
+
+            if (parent.RightChild == node && gp.RightChild == parent)
+            {
+                RotateLeft(gp);
+
+                parent.Color = RedBlack.Black;
+                gp.Color = RedBlack.Red;
             }
         }
 
@@ -132,7 +195,7 @@ namespace DataStructures.Collections
             }
             else
             {
-                fulcrum.Parent = null;
+                fulcrum.Parent = RedBlackTreeNode<T>.NILNode.Copy();
                 Root = fulcrum;
             }
 
@@ -159,7 +222,7 @@ namespace DataStructures.Collections
             }
             else
             {
-                fulcrum.Parent = null;
+                fulcrum.Parent = RedBlackTreeNode<T>.NILNode.Copy();
                 Root = fulcrum;
             }
 

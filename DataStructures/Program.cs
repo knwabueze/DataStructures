@@ -13,7 +13,17 @@ namespace DataStructures
     public class Program
     {
         public static void Main(string[] args)
-        {            
+        {
+            RedBlackTree<int> rbtree = new RedBlackTree<int>();            
+
+            rbtree.Insert(89);
+            rbtree.Insert(33);
+            rbtree.Insert(121);
+            rbtree.Insert(122);
+            rbtree.Insert(123);
+            rbtree.Insert(122);
+
+            Console.Read();
         }
     }
 }

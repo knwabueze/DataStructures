@@ -24,14 +24,24 @@ namespace DataStructures.Collections
         {
             return new RedBlackTreeNode<T>()
             {
-                Color = this.Color
+                Color = this.Color,
+                IsNIL = this.IsNIL
             };
+        }
+
+        public override string ToString()
+        {
+            if (this.IsNIL)
+                return "NIL";
+
+            return base.ToString();
         }
     }
 
     public enum RedBlack
     {
         Red,
-        Black
+        Black,
+        Magenta
     }
 }

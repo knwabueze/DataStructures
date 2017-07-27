@@ -50,7 +50,7 @@ namespace DataStructures.Collections
 
         protected TNode InsertR(TNode parent, T value)
         {
-            if (value.CompareTo(parent.Value) > 0)
+            if (value.CompareTo(parent.Value) >= 0)
             {
                 if (parent.RightChild == null)
                 {
@@ -66,7 +66,7 @@ namespace DataStructures.Collections
                 return InsertR(parent.RightChild, value);
             }
 
-            else if (value.CompareTo(parent.Value) <= 0)
+            else if (value.CompareTo(parent.Value) < 0)
             {
                 if (parent.LeftChild == null)
                 {
