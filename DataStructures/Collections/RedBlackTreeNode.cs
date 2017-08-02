@@ -42,6 +42,6 @@ namespace DataStructures.Collections
     {
         Red,
         Black,
-        Magenta
+        DoubleBlack
     }
 }

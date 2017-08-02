@@ -14,7 +14,7 @@ namespace DataStructures
     {
         public static void Main(string[] args)
         {
-            RedBlackTree<int> rbtree = new RedBlackTree<int>();            
+            RedBlackTree<int> rbtree = new RedBlackTree<int>();
 
             rbtree.Insert(89);
             rbtree.Insert(33);
@@ -22,6 +22,8 @@ namespace DataStructures
             rbtree.Insert(122);
             rbtree.Insert(123);
             rbtree.Insert(122);
+            rbtree.Insert(122);
+            rbtree.Remove(33);
 
             Console.Read();
         }

@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
     // Rule check for adding is different than rule check for deleting
     // So far Checks 1, 4, and 5 are working and tested
     // Checks 2 and 3 have not been tested
-    public class RedBlackTree<T> : BinarySearchTree<T, RedBlackTreeNode<T>>
+    public class RedBlackTree<T> : BinarySearchTree<T, RedBlackTreeNode<T>>, IEnumerable<RedBlackTreeNode<T>>
         where T : IComparable
     {
         public readonly List<Action<RedBlackTreeNode<T>>> Checks;
@@ -17,12 +16,17 @@ namespace DataStructures.Collections
         public RedBlackTree()
             : base()
         {
-            Checks = new List<Action<RedBlackTreeNode<T>>>();
-            Checks.Add(FirstCheck);
-            Checks.Add(SecondCheck);
-            Checks.Add(ThirdCheck);
-            Checks.Add(FourthCheck);
-            Checks.Add(FifthCheck);
+            Checks = new List<Action<RedBlackTreeNode<T>>>
+            {
+                FirstCheck,
+                SecondCheck,
+                ThirdCheck,
+                FourthCheck,
+                FifthCheck
+            };
+
+            Root = null;
+            Size = 0;
         }
 
         public new RedBlackTreeNode<T> Insert(T value)
@@ -47,7 +51,7 @@ namespace DataStructures.Collections
             return node;
         }
 
-        public new RedBlackTreeNode<T> InsertR(RedBlackTreeNode<T> parent, T value)
+        private new RedBlackTreeNode<T> InsertR(RedBlackTreeNode<T> parent, T value)
         {
             if (value.CompareTo(parent.Value) >= 0)
             {
@@ -88,10 +92,60 @@ namespace DataStructures.Collections
 
         public new void Remove(T value)
         {
-            throw new NotImplementedException();
+            var nodeToBeRemoved = SearchNode(value);
+            var isLeftChild = nodeToBeRemoved.Parent.LeftChild == nodeToBeRemoved;
+            var hasLeftChild = !nodeToBeRemoved.LeftChild.IsNIL;
+            var hasRightChild = !nodeToBeRemoved.RightChild.IsNIL;
+
+            if (!hasLeftChild && !hasRightChild) // has neither child
+            {
+                if (isLeftChild)
+                    nodeToBeRemoved.Parent.LeftChild = RedBlackTreeNode<T>.NILNode.Copy();
+                else
+                    nodeToBeRemoved.Parent.RightChild = RedBlackTreeNode<T>.NILNode.Copy();
+            }
+
+            else if (hasLeftChild && hasRightChild) // has both children
+            {
+                var maxLeftSubtree = nodeToBeRemoved.LeftChild;
+
+                while (!maxLeftSubtree.RightChild.IsNIL)
+                    maxLeftSubtree = maxLeftSubtree.RightChild;
+
+                nodeToBeRemoved.Value = maxLeftSubtree.Value;
+
+                maxLeftSubtree.LeftChild.Parent = maxLeftSubtree.Parent;
+                maxLeftSubtree.Parent.LeftChild = maxLeftSubtree.LeftChild;
+            }
+
+            else // has only a left child or right child
+            {
+                var child = AvailableChild(nodeToBeRemoved);
+
+                if (nodeToBeRemoved == Root)
+                {
+                    Root = child;
+                    child.Parent = RedBlackTreeNode<T>.NILNode.Copy();
+                }
+
+                else if (isLeftChild)
+                    nodeToBeRemoved.Parent.LeftChild = child;
+                else
+                    nodeToBeRemoved.Parent.RightChild = child;
+
+                child.Parent = nodeToBeRemoved.Parent;
+            }
+
+            Size--;
         }
 
-        public void RuleCheck(RedBlackTreeNode<T> node)
+        private RedBlackTreeNode<T> AvailableChild(RedBlackTreeNode<T> node)
+        {
+            var hasLeftChild = !node.LeftChild.IsNIL;
+            return hasLeftChild ? node.LeftChild : node.RightChild;
+        }
+
+        protected void RuleCheck(RedBlackTreeNode<T> node)
         {
             var currentNode = node;
 
@@ -124,7 +178,7 @@ namespace DataStructures.Collections
             }
         }
 
-        protected void SecondCheck(RedBlackTreeNode<T> node)
+        protected void SecondCheck(RedBlackTreeNode<T> node) // double rotation
         {
             var parent = node.Parent;
             var gp = parent.Parent;
@@ -132,11 +186,15 @@ namespace DataStructures.Collections
             if (parent.RightChild == node && gp.LeftChild == parent)
             {
                 RotateLeft(parent);
-                FourthCheck(node);
+
+                if (!FourthCheck(parent, true))
+                {
+                    FifthCheck(parent);
+                }
             }
         }
 
-        protected void ThirdCheck(RedBlackTreeNode<T> node)
+        protected void ThirdCheck(RedBlackTreeNode<T> node) // double rotation
         {
             var parent = node.Parent;
             var gp = parent.Parent;
@@ -144,54 +202,95 @@ namespace DataStructures.Collections
             if (parent.LeftChild == node && gp.RightChild == parent)
             {
                 RotateRight(parent);
-                FifthCheck(node);
+
+                if (!FifthCheck(parent, true))
+                {
+                    FourthCheck(parent);
+                }
             }
         }
 
-        protected void FourthCheck(RedBlackTreeNode<T> node)
+        protected void FourthCheck(RedBlackTreeNode<T> node) // single rotation
         {
             var parent = node.Parent;
             var gp = parent.Parent;
 
             if (parent.LeftChild == node && gp.LeftChild == parent)
             {
-                RotateRight(gp);
-
+                parent.Parent.Color = RedBlack.Red;
+                parent.RightChild.Color = RedBlack.Red;
                 parent.Color = RedBlack.Black;
-                gp.Color = RedBlack.Red;
+
+                RotateRight(gp);
             }
         }
 
-        protected void FifthCheck(RedBlackTreeNode<T> node)
+        protected bool FourthCheck(RedBlackTreeNode<T> node, bool returnsBool) // single rotation
+        {
+            var parent = node.Parent;
+            var gp = parent.Parent;
+
+            if (parent.LeftChild == node && gp.LeftChild == parent)
+            {
+                parent.Parent.Color = RedBlack.Red;
+                parent.RightChild.Color = RedBlack.Red;
+                parent.Color = RedBlack.Black;
+
+                RotateRight(gp);
+                return true;
+            }
+            return false;
+        }
+
+        protected void FifthCheck(RedBlackTreeNode<T> node) // single rotation
         {
             var parent = node.Parent;
             var gp = parent.Parent;
 
             if (parent.RightChild == node && gp.RightChild == parent)
             {
-                RotateLeft(gp);
-
+                parent.Parent.Color = RedBlack.Red;
+                parent.LeftChild.Color = RedBlack.Red;
                 parent.Color = RedBlack.Black;
-                gp.Color = RedBlack.Red;
+
+                RotateLeft(gp);
             }
+
         }
 
-        protected void RotateLeft(RedBlackTreeNode<T> subject)
+        protected bool FifthCheck(RedBlackTreeNode<T> node, bool returnsBool) // single rotation
         {
-            var fulcrum = subject.RightChild;
+            var parent = node.Parent;
+            var gp = parent.Parent;
+
+            if (parent.RightChild == node && gp.RightChild == parent)
+            {
+                parent.Parent.Color = RedBlack.Red;
+                parent.LeftChild.Color = RedBlack.Red;
+                parent.Color = RedBlack.Black;
+
+                RotateLeft(gp);
+                return true;
+            }
+            return false;
+        }
+
+        protected void RotateLeft(RedBlackTreeNode<T> node)
+        {
+            var fulcrum = node.RightChild;
             var leftFulcrum = fulcrum.LeftChild;
             var rightFulcrum = fulcrum.RightChild;
-            var subjectParent = subject.Parent;
+            var nodeParent = node.Parent;
 
-            subject.RightChild = leftFulcrum;
+            node.RightChild = leftFulcrum;
 
-            if (subject != Root)
+            if (node != Root)
             {
-                if (subjectParent.LeftChild == subject) subjectParent.LeftChild = fulcrum;
+                if (nodeParent.LeftChild == node) nodeParent.LeftChild = fulcrum;
 
-                else subjectParent.RightChild = fulcrum;
+                else nodeParent.RightChild = fulcrum;
 
-                fulcrum.Parent = subjectParent;
+                fulcrum.Parent = nodeParent;
             }
             else
             {
@@ -199,26 +298,26 @@ namespace DataStructures.Collections
                 Root = fulcrum;
             }
 
-            fulcrum.LeftChild = subject;
-            subject.Parent = fulcrum;
+            fulcrum.LeftChild = node;
+            node.Parent = fulcrum;
         }
 
-        protected void RotateRight(RedBlackTreeNode<T> subject)
+        protected void RotateRight(RedBlackTreeNode<T> node)
         {
-            var fulcrum = subject.LeftChild;
+            var fulcrum = node.LeftChild;
             var rightFulcrum = fulcrum.RightChild;
             var leftFulcrum = fulcrum.LeftChild;
-            var subjectParent = subject.Parent;
+            var nodeParent = node.Parent;
 
-            subject.LeftChild = rightFulcrum;
+            node.LeftChild = rightFulcrum;
 
-            if (subject != Root)
+            if (node != Root)
             {
-                if (subjectParent.LeftChild == subject) subjectParent.LeftChild = fulcrum;
+                if (nodeParent.LeftChild == node) nodeParent.LeftChild = fulcrum;
 
-                else subjectParent.RightChild = fulcrum;
+                else nodeParent.RightChild = fulcrum;
 
-                fulcrum.Parent = subjectParent;
+                fulcrum.Parent = nodeParent;
             }
             else
             {
@@ -226,8 +325,21 @@ namespace DataStructures.Collections
                 Root = fulcrum;
             }
 
-            fulcrum.RightChild = subject;
-            subject.Parent = fulcrum;
+            fulcrum.RightChild = node;
+            node.Parent = fulcrum;
+        }
+
+        public new IEnumerator<RedBlackTreeNode<T>> GetEnumerator()
+        {
+            foreach (var val in InOrderTraverse())
+            {
+                if (!val.IsNIL) yield return val;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
