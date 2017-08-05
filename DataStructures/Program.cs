@@ -16,14 +16,28 @@ namespace DataStructures
         {
             RedBlackTree<int> rbtree = new RedBlackTree<int>();
 
+            //rbtree.Insert(89);
+            //rbtree.Insert(33);
+            //rbtree.Insert(121);
+            //rbtree.Insert(122);
+            //rbtree.Insert(123);
+            //rbtree.Insert(122);
+            //rbtree.Insert(122);
+            //rbtree.Insert(33);
+            //rbtree.Remove(89);
+
             rbtree.Insert(89);
-            rbtree.Insert(33);
+            rbtree.Insert(29);
+            rbtree.Insert(122);
             rbtree.Insert(121);
-            rbtree.Insert(122);
             rbtree.Insert(123);
-            rbtree.Insert(122);
-            rbtree.Insert(122);
-            rbtree.Remove(33);
+            rbtree.Insert(40);
+            rbtree.Insert(25);
+            rbtree.Insert(29);
+            rbtree.Insert(15);
+            rbtree.Insert(14);
+            rbtree.Insert(16);
+            rbtree.Remove(15);
 
             Console.Read();
         }

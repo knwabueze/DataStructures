@@ -11,7 +11,8 @@ namespace DataStructures.Collections
     public class RedBlackTree<T> : BinarySearchTree<T, RedBlackTreeNode<T>>, IEnumerable<RedBlackTreeNode<T>>
         where T : IComparable
     {
-        public readonly List<Action<RedBlackTreeNode<T>>> Checks;
+        private readonly List<Action<RedBlackTreeNode<T>>> Checks;
+        private readonly List<Func<RedBlackTreeNode<T>, bool>> DeletionChecks;
 
         public RedBlackTree()
             : base()
@@ -25,10 +26,18 @@ namespace DataStructures.Collections
                 FifthCheck
             };
 
+            DeletionChecks = new List<Func<RedBlackTreeNode<T>, bool>>
+            {
+                FirstDeletionCheck,
+                SecondDeletionCheck,
+                ThirdDelectionCheck
+            };
+            
             Root = null;
             Size = 0;
         }
 
+        #region Insertion + Deletion
         public new RedBlackTreeNode<T> Insert(T value)
         {
             if (Root == null)
@@ -116,6 +125,17 @@ namespace DataStructures.Collections
 
                 maxLeftSubtree.LeftChild.Parent = maxLeftSubtree.Parent;
                 maxLeftSubtree.Parent.LeftChild = maxLeftSubtree.LeftChild;
+
+                // Color left child black ( or double black if already black )
+                if (maxLeftSubtree.LeftChild.Color == RedBlack.Red)
+                {
+                    maxLeftSubtree.LeftChild.Color = RedBlack.Black;
+                }
+                else
+                {
+                    maxLeftSubtree.LeftChild.Color = RedBlack.DoubleBlack;
+                    DeletionRuleCheck(maxLeftSubtree.LeftChild);
+                }
             }
 
             else // has only a left child or right child
@@ -138,6 +158,7 @@ namespace DataStructures.Collections
 
             Size--;
         }
+        #endregion
 
         private RedBlackTreeNode<T> AvailableChild(RedBlackTreeNode<T> node)
         {
@@ -145,25 +166,80 @@ namespace DataStructures.Collections
             return hasLeftChild ? node.LeftChild : node.RightChild;
         }
 
+        protected void DeletionRuleCheck(RedBlackTreeNode<T> doubleBlackNode)
+        {
+            foreach (var check in DeletionChecks)
+            {
+                if (check.Invoke(doubleBlackNode)) break;
+            }
+        }
+
+        #region Deletion Checks
+        protected bool FirstDeletionCheck(RedBlackTreeNode<T> node)
+        {
+            var parent = node.Parent;
+            var isLeftChild = parent.LeftChild == node;
+            var sibling = isLeftChild ? parent.RightChild : parent.LeftChild;
+
+            if (isLeftChild && sibling.Color == RedBlack.Red)
+            {
+                sibling.Color = RedBlack.Black;
+                parent.Color = RedBlack.Red;
+                RotateLeft(parent);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        protected bool SecondDeletionCheck(RedBlackTreeNode<T> node)
+        {
+            var parent = node.Parent;
+            var isLeftChild = parent.LeftChild == node;
+            var sibling = isLeftChild ? parent.RightChild : parent.LeftChild;
+            var rightNephew = sibling.RightChild;
+            var leftNephew = sibling.LeftChild;
+
+            if (rightNephew.Color == RedBlack.Black && leftNephew.Color == RedBlack.Black)
+            {
+                sibling.Color = RedBlack.Red;
+                return true;
+            }
+
+            return false;
+        }
+
+        protected bool ThirdDelectionCheck(RedBlackTreeNode<T> node) // Run checks 2 through 5
+        {
+            var insertChecks = Checks.Skip(1);
+            return false;
+        }
+        #endregion
+
         protected void RuleCheck(RedBlackTreeNode<T> node)
         {
             var currentNode = node;
 
-            while (currentNode.Color == RedBlack.Red && currentNode.Parent.Color == RedBlack.Red)
+            while (currentNode != Root)
             {
-                foreach (var method in Checks)
+                if (currentNode.Color == RedBlack.Red && currentNode.Parent.Color == RedBlack.Red)
                 {
-                    method.Invoke(currentNode);
+                    foreach (var method in Checks)
+                    {
+                        method.Invoke(currentNode);
 
-                    if (currentNode.Color != RedBlack.Red || currentNode.Parent.Color != RedBlack.Red) break;
+                        if (currentNode.Color != RedBlack.Red || currentNode.Parent.Color != RedBlack.Red) break;
+                    }
                 }
 
-                currentNode = node.Parent;
+                currentNode = currentNode.Parent;
             }
 
             Root.Color = RedBlack.Black;
         }
 
+        #region Insertion Checks
         protected void FirstCheck(RedBlackTreeNode<T> node)
         {
             var parent = node.Parent;
@@ -274,7 +350,9 @@ namespace DataStructures.Collections
             }
             return false;
         }
+        #endregion
 
+        #region Rotation Functions
         protected void RotateLeft(RedBlackTreeNode<T> node)
         {
             var fulcrum = node.RightChild;
@@ -328,7 +406,9 @@ namespace DataStructures.Collections
             fulcrum.RightChild = node;
             node.Parent = fulcrum;
         }
+        #endregion
 
+        #region IEnumerable Functions
         public new IEnumerator<RedBlackTreeNode<T>> GetEnumerator()
         {
             foreach (var val in InOrderTraverse())
@@ -341,5 +421,6 @@ namespace DataStructures.Collections
         {
             return GetEnumerator();
         }
+        #endregion
     }
 }
