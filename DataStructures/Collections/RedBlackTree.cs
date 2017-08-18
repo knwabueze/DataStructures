@@ -26,7 +26,8 @@ namespace DataStructures.Collections
             DeletionChecks = new List<Action<RedBlackTreeNode<T>>>
             {
                 FirstDeletionCheck,
-                SecondDeletionCheck
+                SecondDeletionCheck,
+                ThirdDeletionCheck
             };
 
             Root = null;
@@ -102,12 +103,35 @@ namespace DataStructures.Collections
             var hasLeftChild = !nodeToBeRemoved.LeftChild.IsNIL;
             var hasRightChild = !nodeToBeRemoved.RightChild.IsNIL;
 
+            if (Size == 1) // if deleted node is root
+            {
+                Root = null;
+            }
+
             if (!hasLeftChild && !hasRightChild) // has neither child
             {
                 if (isLeftChild)
+                {
                     nodeToBeRemoved.Parent.LeftChild = RedBlackTreeNode<T>.NILNode.Copy();
+                    nodeToBeRemoved.Parent.LeftChild.Parent = nodeToBeRemoved.Parent;
+
+                    if (nodeToBeRemoved.Color == RedBlack.Black)
+                    {
+                        nodeToBeRemoved.Parent.LeftChild.Color = RedBlack.DoubleBlack;
+                        DeletionRuleCheck(nodeToBeRemoved.Parent.LeftChild);
+                    }
+                }
                 else
+                {
                     nodeToBeRemoved.Parent.RightChild = RedBlackTreeNode<T>.NILNode.Copy();
+                    nodeToBeRemoved.Parent.RightChild.Parent = nodeToBeRemoved.Parent;
+
+                    if (nodeToBeRemoved.Color == RedBlack.Black)
+                    {
+                        nodeToBeRemoved.Parent.RightChild.Color = RedBlack.DoubleBlack;
+                        DeletionRuleCheck(nodeToBeRemoved.Parent.RightChild);
+                    }
+                }
             }
 
             else if (hasLeftChild && hasRightChild) // has both children
@@ -121,15 +145,15 @@ namespace DataStructures.Collections
 
                 maxLeftSubtree.LeftChild.Parent = maxLeftSubtree.Parent;
                 maxLeftSubtree.Parent.LeftChild = maxLeftSubtree.LeftChild;
-                
-                if (maxLeftSubtree.LeftChild.Color == RedBlack.Black)
+
+                if (maxLeftSubtree.Color == RedBlack.Red || nodeToBeRemoved.Color == RedBlack.Red)
                 {
-                    maxLeftSubtree.LeftChild.Color = RedBlack.DoubleBlack;
-                    DeletionRuleCheck(maxLeftSubtree.LeftChild);
+                    nodeToBeRemoved.Color = RedBlack.Black;
                 }
-                else
+                else if (maxLeftSubtree.Color == RedBlack.Black && nodeToBeRemoved.Color == RedBlack.Black)
                 {
-                    maxLeftSubtree.LeftChild.Color = RedBlack.Black;
+                    nodeToBeRemoved.Color = RedBlack.DoubleBlack;
+                    DeletionRuleCheck(nodeToBeRemoved);
                 }
             }
 
@@ -140,17 +164,27 @@ namespace DataStructures.Collections
                 if (nodeToBeRemoved == Root)
                 {
                     Root = child;
-                    child.Parent = RedBlackTreeNode<T>.NILNode.Copy();
                 }
 
                 else if (isLeftChild)
+                {
                     nodeToBeRemoved.Parent.LeftChild = child;
+                }
                 else
+                {
                     nodeToBeRemoved.Parent.RightChild = child;
+                }
 
                 child.Parent = nodeToBeRemoved.Parent;
 
-                child.Color = nodeToBeRemoved.Color;
+                if (child.Color == RedBlack.Red || nodeToBeRemoved.Color == RedBlack.Red)
+                {
+                    child.Color = RedBlack.Black;
+                }
+                else if (child.Color == RedBlack.Black && nodeToBeRemoved.Color == RedBlack.Black)
+                {
+                    child.Color = RedBlack.DoubleBlack;
+                }
             }
 
             Size--;
@@ -166,7 +200,8 @@ namespace DataStructures.Collections
         protected void DeletionRuleCheck(RedBlackTreeNode<T> doubleBlackNode)
         {
             var currentCheck = 0;
-            while (doubleBlackNode.Color == RedBlack.DoubleBlack)
+            var currentNode = doubleBlackNode;
+            while (currentNode.Color == RedBlack.DoubleBlack && currentNode != Root)
             {
                 DeletionChecks[currentCheck].Invoke(doubleBlackNode);
                 currentCheck++;
@@ -175,19 +210,28 @@ namespace DataStructures.Collections
                 {
                     currentCheck = 0;
                 }
+
+                if (currentNode.Color != RedBlack.DoubleBlack && currentNode.Parent.Color == RedBlack.DoubleBlack)
+                {
+                    currentNode = currentNode.Parent;
+                }
             }
+
+            Root.Color = RedBlack.Black;
         }
 
         #region Deletion Checks
         protected void FirstDeletionCheck(RedBlackTreeNode<T> node)
         {
             var isLeftChild = node.Parent.LeftChild == node;
+            var parent = node.Parent;
             var sibling = isLeftChild ? node.Parent.RightChild : node.Parent.LeftChild;
             var rightNephew = sibling.RightChild;
             var leftNephew = sibling.LeftChild;
 
             var bothAreRed = (rightNephew.Color == RedBlack.Red && leftNephew.Color == RedBlack.Red);
-            
+            var bothAreBlack = (rightNephew.Color == RedBlack.Black && leftNephew.Color == RedBlack.Black);
+
             if (sibling.Color == RedBlack.Black)
             {
                 // Left-Left Case (s is left child of its parent and r is left child of s or both children of s are red)
@@ -197,7 +241,7 @@ namespace DataStructures.Collections
                     node.Color = RedBlack.Black;
                 }
 
-                //// Left-Right Case (s is left child of its parent and r is right child)
+                // Left-Right Case (s is left child of its parent and r is right child)
                 else if (!isLeftChild && rightNephew.Color == RedBlack.Red)
                 {
                     RotateLeft(sibling);
@@ -218,7 +262,7 @@ namespace DataStructures.Collections
                     node.Color = RedBlack.Black;
                 }
 
-                //// Right-Left Case (s is right child of its parent and r is left child of s)
+                // Right-Left Case (s is right child of its parent and r is left child of s)
                 else if (isLeftChild && leftNephew.Color == RedBlack.Red)
                 {
                     RotateRight(sibling);
@@ -231,6 +275,8 @@ namespace DataStructures.Collections
                     sibling.Color = RedBlack.Black;
                     node.Color = RedBlack.Black;
                 }
+
+                
             }
         }
 
@@ -246,12 +292,42 @@ namespace DataStructures.Collections
                 // Left Case (s is left of its parent)
                 if (!isLeftChild)
                 {
+                    RotateRight(node.Parent);
                 }
 
                 // Right Case (s is right of its parent)
                 else if (isLeftChild)
                 {
+                    RotateLeft(node.Parent);
                 }
+            }
+        }
+
+        protected void ThirdDeletionCheck(RedBlackTreeNode<T> node)
+        {
+            var isLeftChild = node.Parent.LeftChild == node;
+            var parent = node.Parent;
+            var sibling = isLeftChild ? node.Parent.RightChild : node.Parent.LeftChild;
+            var rightNephew = sibling.RightChild;
+            var leftNephew = sibling.LeftChild;
+            
+            var bothAreBlack = (rightNephew.Color == RedBlack.Black && leftNephew.Color == RedBlack.Black);
+
+            if (sibling.Color == RedBlack.Black && bothAreBlack)
+            {
+                sibling.Color = RedBlack.Red;
+                node.Color = RedBlack.Black;
+
+                if (parent.Color == RedBlack.Black)
+                {
+                    parent.Color = RedBlack.DoubleBlack;
+                }
+
+                else
+                {
+                    parent.Color = RedBlack.Black;
+                }
+
             }
         }
         #endregion

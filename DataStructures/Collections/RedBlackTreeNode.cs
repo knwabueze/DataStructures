@@ -25,7 +25,8 @@ namespace DataStructures.Collections
             return new RedBlackTreeNode<T>()
             {
                 Color = this.Color,
-                IsNIL = this.IsNIL
+                IsNIL = this.IsNIL,
+                Value = this.Value
             };
         }
 
