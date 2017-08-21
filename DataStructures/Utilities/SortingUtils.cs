@@ -10,19 +10,22 @@ namespace DataStructures.Utilities
     public static class SortingUtils
     {
         // Swap indice 1 with indice 2 on a list
-        public static void Swap(int ind1, int ind2, List<int> list) {
-            int temp = list[ind1];
+        public static void Swap<T>(int ind1, int ind2, List<T> list)
+        {
+            T temp = list[ind1];
 
             list[ind1] = list[ind2];
             list[ind2] = temp;
         }
 
         // Check if the list is sorted in ascending order
-        public static bool IsSorted(List<int> list) {
+        public static bool IsSorted<T>(List<T> list)
+            where T : IComparable
+        {
             bool sorted = true;
 
             for (int i = 0; i < list.Count - 1; i++) {
-                if (list[i] > list[i + 1])
+                if (list[i].CompareTo(list[i + 1]) > 0)
                     sorted = false;
             }
 

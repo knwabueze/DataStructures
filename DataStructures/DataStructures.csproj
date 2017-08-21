@@ -48,11 +48,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>DataStructures.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -76,6 +81,13 @@
     <Compile Include="Collections\RedBlackTreeNode.cs" />
     <Compile Include="Exceptions\IsNILException.cs" />
     <Compile Include="Exceptions\KeyAlreadyExistsException.cs" />
+    <Compile Include="Forms\Mountain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Mountain.Designer.cs">
+      <DependentUpon>Mountain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sorting\MergeSort.cs" />
     <Compile Include="Sorting\Resorter.cs" />
     <Compile Include="Collections\SinglyLinkedListNode.cs" />
     <Compile Include="Collections\Queue.cs" />
@@ -91,6 +103,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <Compile Include="Sorting\InsertionSort.cs" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -103,6 +116,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\Mountain.resx">
+      <DependentUpon>Mountain.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

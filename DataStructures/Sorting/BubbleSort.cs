@@ -38,7 +38,7 @@ namespace DataStructures.Sorting
                 isSorted = true;
                 for (int i = 0; i < linkedList.Count() - 1; i++)
                 {
-                    if (linkedList.Get(i) > linkedList.Get(i + 1))
+                    if (linkedList[i] > linkedList[i + 1])
                     {
                         SortingUtils.Swap(i, i+1, linkedList);
                         isSorted = false;
