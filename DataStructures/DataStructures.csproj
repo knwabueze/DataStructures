@@ -79,14 +79,11 @@
     <Compile Include="Collections\Map.cs" />
     <Compile Include="Collections\RedBlackTree.cs" />
     <Compile Include="Collections\RedBlackTreeNode.cs" />
+    <Compile Include="Collections\UndirectedGraph.cs" />
+    <Compile Include="Collections\UndirectedGraphVertex.cs" />
+    <Compile Include="Collections\UndirectedGraphVertexEqualityComparer.cs" />
     <Compile Include="Exceptions\IsNILException.cs" />
     <Compile Include="Exceptions\KeyAlreadyExistsException.cs" />
-    <Compile Include="Forms\Mountain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Mountain.Designer.cs">
-      <DependentUpon>Mountain.cs</DependentUpon>
-    </Compile>
     <Compile Include="Sorting\MergeSort.cs" />
     <Compile Include="Sorting\Resorter.cs" />
     <Compile Include="Collections\SinglyLinkedListNode.cs" />
@@ -116,11 +113,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Forms\Mountain.resx">
-      <DependentUpon>Mountain.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

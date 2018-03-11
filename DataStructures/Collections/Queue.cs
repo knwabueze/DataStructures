@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataStructures.Collections
 {
@@ -34,6 +31,19 @@ namespace DataStructures.Collections
         public Queue()
         {
             backend = new CircularLinkedList<T>();
+        }
+
+        /// <summary>
+        /// Initializes a queue mathmatical model, with elements of those in collection, and enough spaces to hold them.
+        /// </summary>
+        /// <param name="collection">Collections whose elements are copied into the queue</param>
+        public Queue(IEnumerable<T> collection)
+            :base()
+        {
+            foreach (var c in collection)
+            {
+                Enqueue(c);
+            }
         }
 
         public void Enqueue(T value)
