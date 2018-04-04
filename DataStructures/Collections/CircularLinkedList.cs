@@ -89,20 +89,15 @@ namespace DataStructures.Collections
 
         public int IndexOf(T value)
         {
-            int currentIndex = 0;
-            bool found = false;
+            int currentIndex = -1;
 
             for (int i = 0; i < Count(); i++)
             {
                 if (Get(i).Equals(value))
                 {
                     currentIndex = i;
-                    found = true;
                 }
             }
-
-            if (!found)
-                throw new KeyNotFoundException();
 
             return currentIndex;
         }

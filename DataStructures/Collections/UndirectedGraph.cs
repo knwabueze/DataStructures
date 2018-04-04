@@ -6,7 +6,6 @@ namespace DataStructures.Collections
     public class UndirectedGraph<T>
         where T : IComparable<T>
     {
-
         public ISet<UndirectedGraphVertex<T>> Nodes;
 
         /// <summary>
@@ -189,7 +188,31 @@ namespace DataStructures.Collections
         /// <returns></returns>
         public IEnumerable<UndirectedGraphVertex<T>> BreadthFirstTraversal(UndirectedGraphVertex<T> root)
         {
+            UndirectedGraphVertex<T> currentNode = root;
+            Queue<UndirectedGraphVertex<T>> waitList = new Queue<UndirectedGraphVertex<T>>();
+            List<UndirectedGraphVertex<T>> visitedNodes = new List<UndirectedGraphVertex<T>>
+            {
+                root
+            };
 
+            while (true)
+            {
+                foreach (var neighbor in currentNode.Edges)
+                {
+                    if (!visitedNodes.Contains(neighbor) && !waitList.Contains(neighbor))
+                    {
+                        waitList.Enqueue(neighbor);
+                    }
+                }
+
+                if (waitList.Count == 0) break;
+
+                var nextNode = waitList.Dequeue();
+                visitedNodes.Add(nextNode);
+                currentNode = nextNode;                
+            }
+
+            return visitedNodes;
         }
     }
 }

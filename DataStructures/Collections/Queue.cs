@@ -51,6 +51,11 @@ namespace DataStructures.Collections
             backend.Add(value);
         }
 
+        public bool Contains(T value)
+        {
+            return backend.IndexOf(value) != -1;
+        }
+
         public T Dequeue()
         {
             return backend.Remove(0);

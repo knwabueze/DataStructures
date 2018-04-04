@@ -71,6 +71,7 @@
     <Compile Include="Collections\BinarySearchTree.cs" />
     <Compile Include="Collections\BinarySearchTreeNode.cs" />
     <Compile Include="Collections\CircularLinkedList.cs" />
+    <Compile Include="Collections\DynamicMatrix2D.cs" />
     <Compile Include="Collections\ILinkedList.cs" />
     <Compile Include="Collections\INode.cs" />
     <Compile Include="Collections\CircularLinkedListNode.cs" />
@@ -81,7 +82,7 @@
     <Compile Include="Collections\RedBlackTreeNode.cs" />
     <Compile Include="Collections\UndirectedGraph.cs" />
     <Compile Include="Collections\UndirectedGraphVertex.cs" />
-    <Compile Include="Collections\UndirectedGraphVertexEqualityComparer.cs" />
+    <Compile Include="Collections\WeightedGraph.cs" />
     <Compile Include="Exceptions\IsNILException.cs" />
     <Compile Include="Exceptions\KeyAlreadyExistsException.cs" />
     <Compile Include="Sorting\MergeSort.cs" />

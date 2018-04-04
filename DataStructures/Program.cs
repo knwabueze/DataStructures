@@ -1,6 +1,5 @@
 ﻿using DataStructures.Collections;
 using System;
-using System.Linq;
 
 namespace DataStructures
 {
@@ -8,24 +7,18 @@ namespace DataStructures
     {        
         public static void Main(string[] args)
         {
-            UndirectedGraph<int> ud = new UndirectedGraph<int>();
+            WeightedGraph<char> myBaby = new WeightedGraph<char>();
 
-            var x = ud.CreateVertex(0);
-            var y = ud.CreateVertex(2);
-            var z = ud.CreateVertex(1);
-            var w = ud.CreateVertex(5);
-            var k = ud.CreateVertex(3);
-            var a = ud.CreateVertex(7);
+            var zero = myBaby.InsertNode('0');
+            var one = myBaby.InsertNode('1');
+            var two = myBaby.InsertNode('2');
+            var three = myBaby.InsertNode('3');
 
-            ud.TryAddPair(x, y);
-            ud.TryAddPair(y, w);
-            ud.TryAddPair(w, z);
-            ud.TryAddPair(w, a);
-            ud.TryAddPair(z, k);
-
-            var iter = ud.DepthFirstTraversal(x);
-
-            Console.ReadKey();
+            myBaby.AssignEdge(zero, one, 10);
+            myBaby.AssignEdge(zero, three, 2);
+            myBaby.AssignEdge(zero, two, 3);
+            myBaby.AssignEdge(two, three, 6);
+            myBaby.AssignEdge(one, three, 7);
         }
     }
 }
