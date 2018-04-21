@@ -10,7 +10,7 @@ namespace DataStructures.Sorting
 {
     public static class BubbleSort
     {
-        public static void Sort(List<int> array)
+        public static void Sort(System.Collections.Generic.List<int> array)
         {
             bool isSorted = false;
 

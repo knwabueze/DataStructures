@@ -26,10 +26,10 @@ namespace DataStructures.Sorting
             SortR(subtrees[0], subtrees[1], tree);
         }
 
-        private static List<T>[] Split<T>(this List<T> list)
+        private static System.Collections.Generic.List<T>[] Split<T>(this System.Collections.Generic.List<T> list)
         {
-            List<T> list1 = new List<T>();
-            List<T> list2 = new List<T>();
+            System.Collections.Generic.List<T> list1 = new System.Collections.Generic.List<T>();
+            System.Collections.Generic.List<T> list2 = new System.Collections.Generic.List<T>();
 
             for (int i = 0; i < list.Count() / 2; i++)
             {
@@ -44,8 +44,8 @@ namespace DataStructures.Sorting
             return new[] { list1, list2 };
         }
 
-        private static void SortR<T>(List<BinarySearchTreeNode<T>> leftSubtree,
-            List<BinarySearchTreeNode<T>> rightSubtree,
+        private static void SortR<T>(System.Collections.Generic.List<BinarySearchTreeNode<T>> leftSubtree,
+            System.Collections.Generic.List<BinarySearchTreeNode<T>> rightSubtree,
             BinarySearchTree<T> tree)
             where T : IComparable
         {

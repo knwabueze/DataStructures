@@ -237,14 +237,14 @@ namespace DataStructures.Collections
 
         public TNode[] InOrderTraverse()
         {
-            List<TNode> keys = new List<TNode>(Size);
+            System.Collections.Generic.List<TNode> keys = new System.Collections.Generic.List<TNode>(Size);
 
             InOrderTraverseR(ref keys, Root);
 
             return keys.ToArray();
         }
 
-        protected void InOrderTraverseR(ref List<TNode> list, TNode current)
+        protected void InOrderTraverseR(ref System.Collections.Generic.List<TNode> list, TNode current)
         {
             if (current == null)
                 return;
@@ -258,14 +258,14 @@ namespace DataStructures.Collections
 
         public TNode[] PreOrderTraverse()
         {
-            List<TNode> keys = new List<TNode>(Size);
+            System.Collections.Generic.List<TNode> keys = new System.Collections.Generic.List<TNode>(Size);
 
             PreOrderTraverseR(ref keys, Root);
 
             return keys.ToArray();
         }
 
-        protected void PreOrderTraverseR(ref List<TNode> list, TNode current)
+        protected void PreOrderTraverseR(ref System.Collections.Generic.List<TNode> list, TNode current)
         {
             if (current == null)
                 return;
@@ -279,14 +279,14 @@ namespace DataStructures.Collections
 
         public TNode[] PostOrderTraverse()
         {
-            List<TNode> keys = new List<TNode>(Size);
+            System.Collections.Generic.List<TNode> keys = new System.Collections.Generic.List<TNode>(Size);
 
             PostOrderTraverseR(ref keys, Root);
 
             return keys.ToArray();
         }
 
-        protected void PostOrderTraverseR(ref List<TNode> list, TNode current)
+        protected void PostOrderTraverseR(ref System.Collections.Generic.List<TNode> list, TNode current)
         {
             if (current == null)
                 return;

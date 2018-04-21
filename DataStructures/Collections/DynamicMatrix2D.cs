@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace DataStructures.Collections
@@ -25,10 +26,9 @@ namespace DataStructures.Collections
         }
 
         public int Count => Width * Height;
-
-        public bool IsReadOnly => false;
+        
         public int Width => inner_.GetLength(1);
-        public int Height => inner_.GetLength(0);
+        public int Height => inner_.GetLength(0);        
 
         protected const int StartingWidth = 4;
         protected const int StartingHeight = 4;
@@ -52,7 +52,7 @@ namespace DataStructures.Collections
         }
 
         /// <summary>
-        /// Constructs an object of the type DynamicMatrix where <typeparamref name="T"/> can either be a class or a struct
+        /// Constructs an object of the type DynamicMatrix where <typeparamref name="T"/> is the type of the elements of the matrix
         /// with an optional starting width and/or height.
         /// </summary>
         /// <param name="width">Starting width of 2 dimensional internal buffer, by default is 4</param>

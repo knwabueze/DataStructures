@@ -10,7 +10,7 @@ namespace DataStructures.Sorting
 {
     public static class InsertionSort
     {
-        public static void Sort(List<int> list)
+        public static void Sort(System.Collections.Generic.List<int> list)
         {
             while (!SortingUtils.IsSorted(list))
             {

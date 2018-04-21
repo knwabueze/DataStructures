@@ -71,18 +71,22 @@
     <Compile Include="Collections\BinarySearchTree.cs" />
     <Compile Include="Collections\BinarySearchTreeNode.cs" />
     <Compile Include="Collections\CircularLinkedList.cs" />
+    <Compile Include="Collections\DjikstrasWeightedGraph.cs" />
     <Compile Include="Collections\DynamicMatrix2D.cs" />
+    <Compile Include="Collections\BinaryHeap.cs" />
     <Compile Include="Collections\ILinkedList.cs" />
     <Compile Include="Collections\INode.cs" />
     <Compile Include="Collections\CircularLinkedListNode.cs" />
     <Compile Include="Collections\IBinarySearchTree.cs" />
     <Compile Include="Collections\KeyValuePair.cs" />
     <Compile Include="Collections\Map.cs" />
+    <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="Collections\RedBlackTree.cs" />
     <Compile Include="Collections\RedBlackTreeNode.cs" />
     <Compile Include="Collections\UndirectedGraph.cs" />
     <Compile Include="Collections\UndirectedGraphVertex.cs" />
     <Compile Include="Collections\WeightedGraph.cs" />
+    <Compile Include="Exceptions\NoPathBetweenNodesException.cs" />
     <Compile Include="Exceptions\IsNILException.cs" />
     <Compile Include="Exceptions\KeyAlreadyExistsException.cs" />
     <Compile Include="Sorting\MergeSort.cs" />
@@ -101,7 +105,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <Compile Include="Sorting\InsertionSort.cs" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

@@ -14,9 +14,25 @@ namespace DataStructures.Collections
     /// <typeparam name="T">Value type represented by the nodes of the graph</typeparam>
     public class WeightedGraph<T>
     {
-        AdjacencyMatrix adjMatrix_;
-        Map<Key, T> valueMap_; // TODO: Replace this with a hash map vs. a bin-search tree.
-        HashSet<Key> blackList_; // The only way to do deletion in order not to mess anything up is to just blacklist certain nodes. 
+        protected AdjacencyMatrix adjMatrix_;
+        protected Map<Key, T> valueMap_; // TODO: Replace this with a hash map vs. a bin-search tree.
+        protected HashSet<Key> blackList_; // The only way to do deletion in order not to mess anything up is to just blacklist certain nodes. 
+
+        public AdjacencyMatrix AdjacencyMatrix { get => adjMatrix_; }
+
+        public IEnumerable<Key> Keys
+        {
+            get
+            {
+                for (int i = 0; i < adjMatrix_.Width; ++i)
+                {
+                    if (!blackList_.Contains(i))
+                    {
+                        yield return i;
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Gets/sets value of the specified key.
@@ -76,7 +92,7 @@ namespace DataStructures.Collections
         /// <returns>A tuple of (<paramref name="a"/>, <paramref name="b"/>)</returns>
         public (Key, Key) AssignEdge(Key a, Key b, Weight weight)
         {
-            if (a > adjMatrix_.Width || b > adjMatrix_.Width || a < 0 || b < 0 || blackList_.Contains(a) || blackList_.Contains(b))
+            if (NodeNotInGraph(a) && NodeNotInGraph(b))
             {
                 throw new System.Exception("One of the two nodes are not found in this graph.");
             }
@@ -93,7 +109,7 @@ namespace DataStructures.Collections
         /// <param name="b">Node that will no longer be pointed at by <paramref name="a"/></param>
         public void UnassignEdge(Key a, Key b)
         {
-            if (a > adjMatrix_.Width || b > adjMatrix_.Width || a < 0 || b < 0 || blackList_.Contains(a) || blackList_.Contains(b))
+            if (NodeNotInGraph(a) || NodeNotInGraph(b))
             {
                 throw new System.Exception("One of the two nodes are not found in this graph.");
             }
@@ -108,7 +124,7 @@ namespace DataStructures.Collections
         /// <returns><paramref name="node"/> that was passed in.</returns>
         public Key RemoveNode(Key node)
         {
-            if (node > adjMatrix_.Width || node < 0 || blackList_.Contains(node))
+            if (NodeNotInGraph(node))
             {
                 throw new System.Exception("This node is not in this graph.");
             }
@@ -160,6 +176,97 @@ namespace DataStructures.Collections
                     yield return kv.Key;
                 }
             }
+        }
+
+        /// <summary>
+        /// A generator function that traverses the graph structure breadth-first wise starting from <paramref name="searchNode"/>.
+        /// </summary>
+        /// <param name="searchNode">Beginning node to traverse from</param>
+        /// <returns>An iterator that yields nodes</returns>
+        public IEnumerable<Key> BreadthFirstIterator(Key searchNode)
+        {
+            ISet<Key> alreadyEnqueued = new HashSet<Key>();
+            Queue<Key> searchQueue = new Queue<Key>();
+
+            alreadyEnqueued.Add(searchNode);
+            yield return searchNode;
+
+            var currentNode = searchNode;
+
+            do
+            {
+                for (int i = 0; i < adjMatrix_.Width; ++i)
+                {
+                    if (adjMatrix_[currentNode, i] != 0 && !alreadyEnqueued.Contains(i))
+                    {
+                        searchQueue.Enqueue(i);
+                        alreadyEnqueued.Add(i);
+                    }
+                }
+
+                if (searchQueue.Count > 0)
+                {
+                    currentNode = searchQueue.Dequeue();
+                }
+
+                yield return currentNode;
+
+            } while (searchQueue.Count > 0);
+        }
+
+        /// <summary>
+        /// A generator function that traverses the graph structure depth-first wise starting from <paramref name="currentNode"/>.
+        /// </summary>
+        /// <param name="currentNode"></param>
+        /// <returns>An iterator that yields nodes</returns>
+        public IEnumerable<Key> DepthFirstIterator(Key currentNode, HashSet<Key> visitedSet = null)
+        {
+            if (visitedSet == null)
+            {
+                visitedSet = new HashSet<Key>();
+
+            }
+
+            if (!visitedSet.Contains(currentNode))
+            {
+                visitedSet.Add(currentNode);
+                yield return currentNode;
+            }
+
+            var neighbors = Neighbors(currentNode);
+            if (visitedSet.IsSupersetOf(neighbors))
+            {
+                yield break;
+            }
+
+
+            for (int i = 0; i < neighbors.Length; ++i)
+            {
+                foreach (var result in DepthFirstIterator(neighbors[i], visitedSet))
+                {
+                    yield return result;
+                }
+            }
+        }        
+
+        protected Key[] Neighbors(Key node)
+        {
+            System.Collections.Generic.List<Key> arr = new System.Collections.Generic.List<Key>();
+
+            for (int i = 0; i < adjMatrix_.Width; ++i)
+            {
+                if (adjMatrix_[node, i] != 0)
+                {
+                    arr.Add(i);
+                }
+            }
+
+            return arr.ToArray();
+        }
+
+        protected bool NodeNotInGraph(Key node)
+        {
+            return node > adjMatrix_.Width || node < 0 || blackList_.Contains(node);
         }
 
         public override string ToString()

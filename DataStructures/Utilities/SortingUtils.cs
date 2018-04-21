@@ -10,7 +10,7 @@ namespace DataStructures.Utilities
     public static class SortingUtils
     {
         // Swap indice 1 with indice 2 on a list
-        public static void Swap<T>(int ind1, int ind2, List<T> list)
+        public static void Swap<T>(int ind1, int ind2, System.Collections.Generic.List<T> list)
         {
             T temp = list[ind1];
 
@@ -19,7 +19,7 @@ namespace DataStructures.Utilities
         }
 
         // Check if the list is sorted in ascending order
-        public static bool IsSorted<T>(List<T> list)
+        public static bool IsSorted<T>(System.Collections.Generic.List<T> list)
             where T : IComparable
         {
             bool sorted = true;

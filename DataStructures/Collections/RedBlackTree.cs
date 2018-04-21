@@ -8,13 +8,13 @@ namespace DataStructures.Collections
     public class RedBlackTree<T> : BinarySearchTree<T, RedBlackTreeNode<T>>, IEnumerable<RedBlackTreeNode<T>>
         where T : IComparable
     {
-        private readonly List<Action<RedBlackTreeNode<T>>> Checks;
-        private readonly List<Action<RedBlackTreeNode<T>>> DeletionChecks;
+        private readonly System.Collections.Generic.List<Action<RedBlackTreeNode<T>>> Checks;
+        private readonly System.Collections.Generic.List<Action<RedBlackTreeNode<T>>> DeletionChecks;
 
         public RedBlackTree()
             : base()
         {
-            Checks = new List<Action<RedBlackTreeNode<T>>>
+            Checks = new System.Collections.Generic.List<Action<RedBlackTreeNode<T>>>
             {
                 FirstCheck,
                 SecondCheck,
@@ -23,7 +23,7 @@ namespace DataStructures.Collections
                 FifthCheck
             };
 
-            DeletionChecks = new List<Action<RedBlackTreeNode<T>>>
+            DeletionChecks = new System.Collections.Generic.List<Action<RedBlackTreeNode<T>>>
             {
                 FirstDeletionCheck,
                 SecondDeletionCheck,

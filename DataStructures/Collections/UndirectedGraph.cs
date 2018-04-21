@@ -121,7 +121,7 @@ namespace DataStructures.Collections
         /// <param name="root">Current node on recursive structure</param>
         /// <param name="returnedNodes">List that the nodes will be added</param>
         /// <param name="unvisitedNodes">All unvisited nodes</param>
-        private void DepthFirstTraversalR(UndirectedGraphVertex<T> root, List<UndirectedGraphVertex<T>> returnedNodes,
+        private void DepthFirstTraversalR(UndirectedGraphVertex<T> root, System.Collections.Generic.List<UndirectedGraphVertex<T>> returnedNodes,
             ISet<UndirectedGraphVertex<T>> unvisitedNodes = null)
         {
             if (unvisitedNodes == null)
@@ -164,21 +164,11 @@ namespace DataStructures.Collections
         /// <returns></returns>
         public IEnumerable<UndirectedGraphVertex<T>> DepthFirstTraversal(UndirectedGraphVertex<T> root)
         {
-            var ret = new List<UndirectedGraphVertex<T>>();
+            var ret = new System.Collections.Generic.List<UndirectedGraphVertex<T>>();
 
             DepthFirstTraversalR(root, ret);
 
             return (ret as IEnumerable<UndirectedGraphVertex<T>>);
-        }
-
-        private void BreadthFirstTraversalR(UndirectedGraphVertex<T> root, List<UndirectedGraphVertex<T>> visitedNodes)
-        {
-            var unvisitedNodes = new Queue<UndirectedGraphVertex<T>>(root.Edges);
-
-            for (var nextNode = unvisitedNodes.Dequeue(); unvisitedNodes.Count > 0; nextNode = unvisitedNodes.Dequeue())
-            {
-
-            }
         }
 
         /// <summary>
@@ -190,7 +180,7 @@ namespace DataStructures.Collections
         {
             UndirectedGraphVertex<T> currentNode = root;
             Queue<UndirectedGraphVertex<T>> waitList = new Queue<UndirectedGraphVertex<T>>();
-            List<UndirectedGraphVertex<T>> visitedNodes = new List<UndirectedGraphVertex<T>>
+            System.Collections.Generic.List<UndirectedGraphVertex<T>> visitedNodes = new System.Collections.Generic.List<UndirectedGraphVertex<T>>
             {
                 root
             };
